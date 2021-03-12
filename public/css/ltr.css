@@ -1,0 +1,85 @@
+#header #sidebar-toggler{
+	margin-left:2% ;
+}
+.sidebar-fixed-offcanvas.header-static .main-header, .sidebar-fixed.header-static .main-header{
+	padding-right:0;
+}
+#header > .navbar{
+	padding-right:0;
+}
+.navbar .sidebar-offcanvas-toggle, .navbar .sidebar-toggle{
+	border-left:1px solid var(--black);
+	border-right:1px solid var(--black) !important;
+}
+.operation .btn{
+	margin-left:10px ;
+	margin-right:0;
+}
+.operation .btn{
+	float:right;
+
+}
+.navbar .navbar-right .navbar-nav .right-sidebar-2-menu{
+	border-left: 0;
+	border-right: 1px solid var(--black);
+}
+.invoice-button > .row > div:nth-child(2){
+	text-align: right !important;
+}
+.media.media-left .media-body{
+	padding-left:10px;
+}
+.x-switcher{
+	float:right;
+}
+.switch .switch-input:checked ~ .switch-handle{
+	left:30px;
+}
+span.strick span{
+	left:unset;
+	right:-10px;
+}
+.invoice-style .content-oneline{
+	padding-left:0;
+	padding-right:37px;
+}
+.delete-payment .delete{
+	left:unset;
+	right:20px;
+}
+.delete-payment .payed{
+	right:40px;
+}
+.invoice-button > .row > div:first-child > a:last-child{
+	margin-left:20px;
+}
+.values .go-side{
+	float:right;
+}
+.profile-left{
+	border-left:0;
+	border-right:1px solid var(--black);
+}
+.briefs .brief span.delete-brief{
+	left:unset;
+	right:30px;
+}
+.briefs .brief .edit-brief{
+	left:unset;
+	right:10px;
+}
+.choose-header a{
+	left: unset;
+	right:0;
+}
+.delete-choosep .delete{
+	left:unset;
+	right:-30px
+}
+
+
+/* Payment */
+.payments .div.dataTables_wrapper div.dataTables_filter{
+	margin-right: unset;
+	margin-left: auto;;
+}

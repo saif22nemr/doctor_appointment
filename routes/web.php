@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\TestController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +14,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::group(['prefix' => 'dashboard' ] , function (){
+    Route::get('/', function () {
+        return view('welcome');
+    })->name('dashboard.index');
+    Route::get('test' , [TestController::class , 'index']);
+    Route::get('logout' , [TestController::class , 'index'])->name('logout');
 });
+Route::get('/', function () {
+    return redirect('dashboard');
+});
+

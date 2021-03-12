@@ -1,0 +1,17 @@
+
+/* General */
+.operation .btn{
+	float: left;
+}
+.operation{
+	clear: both;
+}
+.special-checked span {
+	margin-left: 0;
+	margin-right: 30px;
+}
+/* Exam */
+
+.exam-schedule-list .schedule .header .box.last{
+	float:left;
+}

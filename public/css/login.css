@@ -1,0 +1,14 @@
+.app-brand .brand-icon{
+	max-width: 60px;
+	border-radius:5px
+}
+.form-group .form-control, .input-group .form-control{
+	border-color:#909090;
+}
+.app-brand a{
+	width:100%;
+}
+.app-brand .brand-name{
+	font-size:1.3rem;
+	line-height: 1;
+}

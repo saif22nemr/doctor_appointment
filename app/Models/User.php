@@ -20,6 +20,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'status',
+        'group'
     ];
 
     /**
@@ -40,4 +42,21 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function phones(){
+        return $this->hasMany('App\Models\Phone' , 'user_id');
+    }
+    public function patient(){
+        return $this->hasOne('App\Models\Patient' , 'user_id');
+    }
+    public function userPermissions(){
+        return $this->hasMany('App\Models\UserPermisson' , 'user_id');
+    }
+    public function AauthAccessToken(){
+        return $this->hasMany('App\Models\OauthAccessToken' , 'user_id');
+    }
+    public function activities(){
+    	return $this->morphMany('App\Models\Activity', 'activitable');
+    }
+
 }
