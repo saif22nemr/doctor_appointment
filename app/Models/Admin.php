@@ -5,18 +5,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Phone extends Model
+class Admin extends User
 {
     use HasFactory;
-    public $timestamps = false;
-    protected $fillable  = [
-        'user_id' , 'number' , 'primary'
-    ];
-    public function user(){
-        return $this->belongsTo('App\Models\User' , 'user_id');
+    
+    protected static function boot()
+    {
+        parent::boot();
+        static::addGlobalScope(function ($query) {
+            $query->where('group',1);
+        });
+
     }
     public function activities(){
     	return $this->morphMany('App\Models\Activity', 'activitable');
     }
-
 }

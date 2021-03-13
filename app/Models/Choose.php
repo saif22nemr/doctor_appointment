@@ -8,7 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Choose extends Model
 {
     use HasFactory;
+
     public $timestamps = false;
+    protected $table = 'question_chooses';
     protected $fillable = [
         'question_id' , 'choose'
     ];

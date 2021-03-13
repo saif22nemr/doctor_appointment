@@ -207,7 +207,7 @@
                       </li>
 
                       <li class="dropdown-footer">
-                        <a href="{{route('logout')}}"> <i class="mdi mdi-logout"></i> @lang('app.logout') </a>
+                        <a href="{{route('dashboard.logout')}}"> <i class="mdi mdi-logout"></i> @lang('app.logout') </a>
                       </li>
                     </ul>
                   </li>

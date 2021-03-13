@@ -6,17 +6,20 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Passport\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable;
+    use HasApiTokens,HasFactory, Notifiable;
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
+    protected $table = 'users';
     protected $fillable = [
+        'username',
         'name',
         'email',
         'password',
@@ -52,7 +55,7 @@ class User extends Authenticatable
     public function userPermissions(){
         return $this->hasMany('App\Models\UserPermisson' , 'user_id');
     }
-    public function AauthAccessToken(){
+    public function OauthAccessToken(){
         return $this->hasMany('App\Models\OauthAccessToken' , 'user_id');
     }
     public function activities(){
