@@ -9,6 +9,7 @@ use App\Models\Patient;
 use App\Models\Phone;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class PatientController extends ApiController
@@ -245,5 +246,50 @@ class PatientController extends ApiController
                 'data' => $patient
             ]);
         }
-    
+
+        /**
+         * 
+         *  update phones for patient
+         * 
+         */
+        
+        public function updatePhones(Request $request , Patient $patient ){
+            $request->validate([
+                'phones'    => 'required|array|min:1|max:10',
+            ]);
+            // return $this->successResponse($request->all());
+            // validate phones
+            if(!checkPhones($request->phones))
+                return $this->errorResponse(trans('user.error_phone '));
+            foreach($request->phones as $phone):
+                if($check = Phone::where('user_id' , '!=' , $patient->user_id)->where('number' , $phone['number'])->first() ){
+                    return $this->errorResponse(trans('user.error_phone '));
+                }
+            endforeach;
+            // delete old phones and then stored
+            $patient->user->phones()->delete();
+            
+            foreach($request->phones as $phone):
+                Phone::create([
+                    'user_id' => $patient->user_id,
+                    'number'    => $phone['number'],
+                    'primary'   => $phone['primary']
+                ]);    
+            endforeach;
+
+            $activity = new Activity([
+                'type'  => 'edit',
+                'description'       => trans('activity.edit_phone' , ['user' => $patient->user->name]),
+                'user_id'   => $this->user->id,
+                'related_id'        => $patient->user_id
+            ]);
+
+            $patient->activities()->save($activity);
+
+            return $this->successResponse([
+                'success'           => true,
+                'message'   => trans('activity.edit_phone' , ['user' => $patient->user->name]),
+                'data'  => $patient->user->phones
+            ]);
+        }
 }

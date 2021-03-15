@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class UserPermission extends Model
 {
     use HasFactory;
+    protected $table = 'user_permission';
     protected $fillable = [
         'user_id' , 'permission_id' , 'create' , 'edit' , 'delete' , 'view'
     ];
@@ -17,7 +18,7 @@ class UserPermission extends Model
     }
 
     public function permission(){
-        return $this->belongsTo('App\Models\Permisson' , 'permisson_id');
+        return $this->belongsTo('App\Models\Permission' , 'permission_id');
     }
     public function activities(){
     	return $this->morphMany('App\Models\Activity', 'activitable');

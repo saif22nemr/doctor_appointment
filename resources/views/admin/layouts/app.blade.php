@@ -375,7 +375,7 @@ var datatableLanguage = {
         'previous' : "@lang('pagination.previous')"
 				},
 	    };
-  var header = {'Accept' : 'application/json','Authorization' : 'Bearer {{session("auth")["access_token"] ?? ''}}' ,
+  var header = {'Accept' : 'application/json','Authorization' : 'Bearer {{$apiToken}}' ,
     };
   var lang = "";
   function handlingAjaxError(xhr){

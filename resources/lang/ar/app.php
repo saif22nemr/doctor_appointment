@@ -157,7 +157,11 @@ return [
     'generate_password' => 'انشاء كلمة مرور', 
     'age'                           => 'العمر',
     'employee'                  => 'موظف',
-    
+    'phones'                        => 'أرقام الهاتف',
+    'phone'                         => 'رقم الهاتف',
+    'add'                           => 'إضافة',
+    'permissions'               => 'الصلاحيات',
+    'roles'                         => 'صلاحيات',
 
     'results'                               => 'النتيجة',
 

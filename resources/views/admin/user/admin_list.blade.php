@@ -29,12 +29,13 @@
 				<div class="card-header card-header-border-bottom d-flex justify-content-between">
 					<h2>@lang('user.admin_list')</h2>
 					<div class="operation">
-						<a href="{{route('admin.create')}}" class="btn btn-outline-primary btn-sm text-uppercase">
-							<i class=" mdi mdi-plus-circle-outline"></i> @lang('user.create_admin')
-						</a>
 						<a href="{{route('employee.create')}}" class="btn btn-outline-primary btn-sm text-uppercase">
 							<i class=" mdi mdi-plus-circle-outline"></i> @lang('user.create_employee')
 						</a>
+						<a href="{{route('admin.create')}}" class="btn btn-outline-primary btn-sm text-uppercase">
+							<i class=" mdi mdi-plus-circle-outline"></i> @lang('user.create_admin')
+						</a>
+						
 					</div>
 					
 				</div>
@@ -46,6 +47,8 @@
 								<tr >
 									
 									<th>@lang('app.entry_name')</th>
+									<th>@lang('app.entry_username')</th>
+									<th>@lang('app.entry_phone')</th>
 									<th>@lang('app.entry_type')</th>
 									<th>@lang('app.entry_status')</th>
 									<th>@lang('app.entry_created_at')</th>
@@ -58,6 +61,14 @@
 							@foreach($admins as $admin)									
 							<tr >
 								<td><a href="{{$admin->group == 1 ? route('admin.show' , $admin) : route('employee.show' , $admin->id)}}">{{$admin->name}}</a></td>
+								<td>{{$admin->username}}</td>
+								<td>
+									@foreach($admin->phones as $phone)
+										{{-- @if($phone->primary == 1) --}}
+											<p>{{$phone->number}}</p>
+										{{-- @endif --}}
+									@endforeach
+								</td>
 								<td>
 									@if($admin->group == 1)
 										<span class="badge badge-success">@lang('app.admin')</span>
@@ -74,7 +85,7 @@
 								</td>
 							<td data-sort="{{$admin->created_at}}">{{date('Y-m-d' , strtotime($admin->created_at))}}</td>
 								<td>
-									<div class="dropdown show d-inline-block widget-dropdown" id="{{$admin->id}}"><a class="dropdown-toggle icon-burger-mini" href="" role="button" id="dropdown-recent-order1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static"></a><ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown-recent-order1"><li class="dropdown-item"><a href="{{route('admin.edit' , $admin->id)}}">@lang("app.edit")</a></li><li class="dropdown-item"><a href="javascript::void(0)" class="delete-item" data-toggle="modal" data-target="#exampleModal" data-id="{{$admin->id}}" data-group="{{$admin->group}}" >@lang("app.delete")</a></li></ul></div>
+									<div class="dropdown show d-inline-block widget-dropdown" id="{{$admin->id}}"><a class="dropdown-toggle icon-burger-mini" href="" role="button" id="dropdown-recent-order1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static"></a><ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown-recent-order1"><li class="dropdown-item"><a href="{{ $admin->group == 1 ? route('admin.edit' , $admin->id) : route('employee.edit' , $admin->id)}}">@lang("app.edit")</a></li><li class="dropdown-item"><a href="javascript::void(0)" class="delete-item" data-toggle="modal" data-target="#exampleModal" data-id="{{$admin->id}}" data-group="{{$admin->group}}" >@lang("app.delete")</a></li></ul></div>
 								</td>
 							</tr>
 							@endforeach

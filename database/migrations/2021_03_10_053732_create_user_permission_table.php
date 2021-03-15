@@ -17,10 +17,10 @@ class CreateUserPermissionTable extends Migration
             $table->id();
             $table->bigInteger('user_id')->unsigned();
             $table->bigInteger('permission_id')->unsigned();
-            $table->boolean('view')->default(1);
-            $table->boolean('create')->default(1);
-            $table->boolean('edit')->default(1);
-            $table->boolean('delete')->default(1);
+            $table->boolean('view')->default(0);
+            $table->boolean('create')->default(0);
+            $table->boolean('edit')->default(0);
+            $table->boolean('delete')->default(0);
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');

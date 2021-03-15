@@ -1,24 +1,36 @@
 
 
 @font-face{
-    font-family: 'SuisseIntl';
-    src: url('../fonts/SuisseIntl-Regular.ttf');
+    font-family: 'Tajawal';
+    /* src: url('../fronts/Almarai/Almarai-Regular.ttf'); */
+    src: url('../fonts/Tajawal/Tajawal-Regular.ttf');
     font-weight: normal;
 }
 
+
 @font-face{
-    font-family: 'SuisseIntl';
-    src: url('../fonts/SuisseIntlBold.ttf');
+    font-family: 'Tajawal';
+    src: url('../fonts/Tajawal/Tajawal-Bold.ttf');
     font-weight: bold;
 }
+@font-face{
+    font-family: 'Tajawal';
+    src: url('../fonts/Tajawal/Tajawal-Medium.ttf');
+    font-weight: 500;
+}
+@font-face{
+    font-family: 'Tajawal';
+    src: url('../fonts/Tajawal/Tajawal-Light.ttf');
+    font-weight: 200;
+}
 /*@font-face{
-    font-family: 'SuisseIntl';
-    src: url('../fonts/SuisseIntl-Light.otf');
+    font-family: 'Almarai';
+    src: url('../fonts/Almarai-Light.otf');
     font-weight: lighter;
 }*/
 *{
-	font-family: 'SuisseIntl' !important;
-  font-size: 14px;
+    font-family: 'Tajawal' !important;
+    font-size: 14px;
 }
 body,
 .breadcrumb .breadcrumb-item a{
@@ -58,6 +70,7 @@ body,
 }
 .app-brand .brand-name{
     font-size:1rem;
+    font-weight: 600;
 }
 .navbar{
     padding-right:3%;    

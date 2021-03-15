@@ -17,10 +17,9 @@ class Controller extends BaseController
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
     public $setting;
-    public $ticketStatus;
     public $user = null;
     protected $viewShare = null;
-    public $lang;
+    public $lang , $apiToken;
     public function __construct(){
         
         $this->getConstruct();
@@ -37,9 +36,11 @@ class Controller extends BaseController
         foreach($sets as $set){
             $this->setting[$set->name] = $set->data;
         }
+        
     	$this->viewShare = [
             'setting' => $this->setting,
-            'lang' => $this->lang
+            'lang' => $this->lang,
+            'apiToken' => $this->apiToken
         ];
         View::share($this->viewShare);
     }
@@ -48,6 +49,8 @@ class Controller extends BaseController
             $now = Carbon::now();
             if(Auth::check()){
                 $this->user = $request->user();
+                $this->apiToken = $this->user->api_token;
+                $this->viewShare['apiToken'] = $this->apiToken;
                 $this->viewShare['auth_user'] = $this->user;
             }
 

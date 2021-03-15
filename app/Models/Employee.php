@@ -17,6 +17,9 @@ class Employee extends User
         });
 
     }
+    public function userPermissions(){
+        return $this->hasMany('App\Models\UserPermission' , 'user_id');
+    }
     public function activities(){
     	return $this->morphMany('App\Models\Activity', 'activitable');
     }

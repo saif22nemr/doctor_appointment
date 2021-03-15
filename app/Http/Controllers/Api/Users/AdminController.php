@@ -206,4 +206,49 @@ class AdminController extends ApiController
             'data' => $admin
         ]);
     }
+      /**
+         * 
+         *  update phones for admin
+         * 
+         */
+        
+        public function updatePhones(Request $request , Admin $admin ){
+            $request->validate([
+                'phones'    => 'required|array|min:1|max:10',
+            ]);
+            // return $this->successResponse($request->all());
+            // validate phones
+            if(!checkPhones($request->phones))
+                return $this->errorResponse(trans('user.error_phone '));
+            foreach($request->phones as $phone):
+                if($check = Phone::where('user_id' , '!=' , $admin->id)->where('number' , $phone['number'])->first() ){
+                    return $this->errorResponse(trans('user.error_phone'));
+                }
+            endforeach;
+            // delete old phones and then stored
+            $admin->phones()->delete();
+            
+            foreach($request->phones as $phone):
+                Phone::create([
+                    'user_id' => $admin->id,
+                    'number'    => $phone['number'],
+                    'primary'   => $phone['primary']
+                ]);    
+            endforeach;
+
+            $activity = new Activity([
+                'type'  => 'edit',
+                'description'       => trans('activity.edit_phone' , ['user' => $admin->name]),
+                'user_id'   => $this->user->id,
+                'related_id'        => $admin->id
+            ]);
+
+            $admin->activities()->save($activity);
+
+            return $this->successResponse([
+                'success'           => true,
+                'message'   => trans('activity.edit_phone' , ['user' => $admin->name]),
+                'data'  => $admin->phones
+            ]);
+        }
 }

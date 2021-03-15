@@ -21,6 +21,8 @@ return [
     'edit_patient'                              => 'تم تعديل مريض ":patient" بنجاح',
     'delete_patient'                              => 'تم حذف مريض ":patient" بنجاح',
 
+    'edit_phone'                                => 'تم تعديل رقم الهاتف للمستخدم :user',
+
     //question 
     'create_question'                           => 'تم إنشاء سؤال بنجاح',
     'edit_question'                              => 'تم تعديل سؤال بنجاح',

@@ -24,7 +24,8 @@ class User extends Authenticatable
         'email',
         'password',
         'status',
-        'group'
+        'group',
+        'api_token'
     ];
 
     /**
@@ -35,6 +36,7 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+        'api_token'
     ];
 
     /**
@@ -52,9 +54,7 @@ class User extends Authenticatable
     public function patient(){
         return $this->hasOne('App\Models\Patient' , 'user_id');
     }
-    public function userPermissions(){
-        return $this->hasMany('App\Models\UserPermisson' , 'user_id');
-    }
+    
     public function OauthAccessToken(){
         return $this->hasMany('App\Models\OauthAccessToken' , 'user_id');
     }

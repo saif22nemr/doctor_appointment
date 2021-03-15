@@ -198,4 +198,50 @@ class EmployeeController extends ApiController
             'data' => $employee
         ]);
     }
+
+       /**
+         * 
+         *  update phones for employee
+         * 
+         */
+        
+        public function updatePhones(Request $request , Employee $employee ){
+            $request->validate([
+                'phones'    => 'required|array|min:1|max:10',
+            ]);
+            // return $this->successResponse($request->all());
+            // validate phones
+            if(!checkPhones($request->phones))
+                return $this->errorResponse(trans('user.error_phone '));
+            foreach($request->phones as $phone):
+                if($check = Phone::where('user_id' , '!=' , $employee->id)->where('number' , $phone['number'])->first() ){
+                    return $this->errorResponse(trans('user.error_phone '));
+                }
+            endforeach;
+            // delete old phones and then stored
+            $employee->phones()->delete();
+            
+            foreach($request->phones as $phone):
+                Phone::create([
+                    'user_id' => $employee->id,
+                    'number'    => $phone['number'],
+                    'primary'   => $phone['primary']
+                ]);    
+            endforeach;
+
+            $activity = new Activity([
+                'type'  => 'edit',
+                'description'       => trans('activity.edit_phone' , ['user' => $employee->name]),
+                'user_id'   => $this->user->id,
+                'related_id'        => $employee->id
+            ]);
+
+            $employee->activities()->save($activity);
+
+            return $this->successResponse([
+                'success'           => true,
+                'message'   => trans('activity.edit_phone' , ['user' => $employee->name]),
+                'data'  => $employee->phones
+            ]);
+        }
 }

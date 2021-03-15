@@ -44,7 +44,60 @@
 .navbar .navbar-right .navbar-nav .notifications-menu > .dropdown-menu li >  a{
 	padding:2px 10px;
 }
+.modal .operation{
+	margin-top:0;
+}
+.delete.delete-item{
+	position: absolute;
+	top:10px;
+	left:10px;
+	z-index: 10;;
+}
+.delete.delete-item i{
+	font-size:18px;
+}
+.checkbox-big .control-indicator{
+	height:18px;
+	width:18px;
+}
+.checkbox-big .control-indicator:after{
+	top: 4px;
+	right:2px;
+    width: 11px;
+    height: 5px;
+}
+.text-bold {
+	font-weight: bold;
+}
+.card-header .operation{
+	margin:0;
+}
 /* End General */
 .background-danger{
 	background:rgb(240 17 17 / 8%);
+}
+
+/* Phone Modal */
+#updatePhones .phone{
+	/* box-shadow: 2px 2px 10px #CCC; */
+	padding:10px;
+	position: relative;
+}
+#updatePhones .phone .control{
+	display: inline;
+	margin:10px 0;
+}
+#updatePhones .phone input[type=number]{
+	max-width: 200px;
+	display: inline;
+	margin-right:10px;
+	font-size:14px;
+}
+#updatePhones .phone .delete.delete-item{
+	top:17px;
+}
+
+/* Permissions Modal  */
+#updatePermissions .permissions > label{
+	
 }

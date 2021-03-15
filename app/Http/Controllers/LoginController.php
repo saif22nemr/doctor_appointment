@@ -46,6 +46,8 @@ class LoginController extends Controller
             }
             $user->OauthAccessToken()->where('name' , 'Web Token')->delete();
             $token = $user->createToken('Web Token')->accessToken;
+            $user->api_token = $token;
+            $user->save();
             Auth::login($user);
             session()->put('auth' , [
                 'access_token'  => $token,
@@ -65,6 +67,9 @@ class LoginController extends Controller
 
     public function logout(){
         session()->forget('auth');
+        $user = Auth::user();
+        $user->api_token = null;
+        $user->save();
         Auth::logout();
         return redirect(route('dashboard.login'));
     }

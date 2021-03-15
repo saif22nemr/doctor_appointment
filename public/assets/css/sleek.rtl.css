@@ -9526,7 +9526,7 @@ code {
   font-size: 0.875rem;
   font-weight: 500; }
 
-.control input {
+.control input[type=checkbox] {
   position: absolute;
   z-index: -1;
   opacity: 0; }

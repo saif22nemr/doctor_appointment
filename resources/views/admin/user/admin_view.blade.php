@@ -17,7 +17,7 @@
 			</li>
 			<li class="breadcrumb-item">
 				<a href="{{route('admin.index')}}">
-				  @lang('user.admin_list')
+				  @lang('app.admins')
 				</a>
   
 			  </li>
@@ -35,9 +35,9 @@
 					<h2>@lang('app.admin')</h2>
 					<div class="operation">
 					
-						{{-- <a href="javascript::void(0)" class="btn btn-outline-primary btn-sm text-uppercase" id="end-admin">
-							<i class=" mdi mdi-plus-circle-outline"></i> @lang('admin.end_admin')
-						</a> --}}
+						<a href="javascript::void(0)" class="btn btn-outline-primary btn-sm text-uppercase" data-toggle="modal" data-target="#updatePhones" id="update-phones">
+							<i class=" mdi mdi-plus-circle-outline"></i> @lang('user.update_phones')
+						</a>
 					</div>
 					
 				</div>
@@ -47,6 +47,16 @@
 						<div class="col-sm-4 mb-3">
 							<h4>@lang('app.entry_name')</h4>
 						<p>{{$admin->name}}</p>
+						</div>
+						<div class="col-sm-4 mb-3">
+							<h4>@lang('app.entry_username')</h4>
+						<p>{{$admin->username}}</p>
+						</div>
+						<div class="col-sm-4 mb-3">
+							<h4>@lang('app.entry_phone')</h4>
+							@foreach($admin->phones as $phone)
+								<p class="{{$phone->primary == 1 ? 'text-bold' : ''}}">{{$phone->number}}</p>
+							@endforeach
 						</div>
 						@if($admin->email)
 						<div class="col-sm-4 mb-3">
@@ -67,7 +77,7 @@
 						</div>
 						<div class="col-sm-4 mb-3">
 							<h4>@lang('app.entry_created_at')</h4>
-						<p>{{date('Y-m-d H:i A' , strtotime($admin->created_at))}}</p>
+						<p>{{date('Y-m-d h:i A' , strtotime($admin->created_at))}}</p>
 						</div>
 					</div>
 					{{-- Tabs --}}
@@ -132,26 +142,51 @@
 		</div>
 	</div>
 
-{{-- admin Result --}}
-<div class="modal fade" id="adminResult" tabindex="-1" role="dialog" aria-labelledby="adminResult" aria-hidden="true">
-	<div class="modal-dialog modal-lg" role="document">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title " id="adminResult">@lang('admin.semester_result')</h5>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
-			</div>
-			<div class="modal-body">
-				{{-- content --}}
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary btn-pill" data-dismiss="modal">@lang('app.cancel')</button>
-				{{-- <button type="button" class="btn btn-primary btn-pill">Save Changes</button> --}}
+
+	{{-- Update Phones --}}
+	<div class="modal fade" id="updatePhones" tabindex="-1" role="dialog" aria-labelledby="updatePhonesLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="updatePhonesLabel"><span>@lang('app.phones')</span>
+						
+					</h5>
+					
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="operation">
+						<a href="javascript::void(0)" class="btn btn-outline-primary btn-sm text-uppercase" id="add-phone" >
+							<i class=" mdi mdi-plus-circle-outline"></i> @lang('app.add')
+						</a>
+					</div>
+					@foreach($admin->phones as $key => $phone)
+						<div class="row">
+							<div class="col-md-12">
+								<div class="phone">
+									<label class="control control-checkbox checkbox-primary checkbox-big">
+										<input type="checkbox" name="phones[{{$key}}][primary]" value="1" class="primary form-control" {{$phone->primary == 1 ? 'checked' : ''}} />
+										<div class="control-indicator"></div>
+									</label>
+									<input type="number" name="phones[{{$key}}][number]" value="{{$phone->number}}" class="form-control">
+								
+									<span class="delete delete-item"><i class=" mdi mdi-close"></i> </span>
+								</div>
+							</div>
+						</div>
+					@endforeach
+					
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary btn-pill" data-dismiss="modal">@lang('app.cancel')</button>
+					<button type="button" data-dismiss="modal" data-url="" class="btn btn-primary btn-pill save-data" >@lang('app.save')</button>
+				</div>
 			</div>
 		</div>
 	</div>
-</div>
+
 @endsection
 
 
@@ -166,6 +201,7 @@
 	jQuery(document).ready(function() {
 		var urlDelete = '';
 		var itemId = 0;
+		var phoneCount = {{count($admin->phones)}};
 	   var adminTable = jQuery('#responsive-data-table').DataTable({
 	    "aLengthMenu": [[20, 30, 50, 75, -1], [20, 30, 50, 75, "All"]],
 	    "pageLength": 20,
@@ -190,28 +226,38 @@
 		 
 	   		deleteItem(url, itemId);
 	   });
-	//    Student payment and sending emails
-	   $('.student-payment').on('click' , function(){
+	
+	//    when phone checked 
+	$('#updatePhones ').on('change' , '.primary' , function(){
+		$('#updatePhones .primary').prop('checked' , false);
+		$(this).prop('checked' , true);
+	});
+	//    delete phone
+	$('#updatePhones .delete-item').on('click' , function(){
+		var thisTag = $(this);
+		thisTag.parent().remove();
+	});
+	//    add phone input
+	$('#add-phone').on('click' , function(){
+		
+		var content = '<div class="row"><div class="col-md-12"><div class="phone">';
+		content += '<label class="control control-checkbox checkbox-primary checkbox-big"><input type="checkbox" class="primary form-control" name="phones['+phoneCount+'][primary]" /><div class="control-indicator"></div></label>';
+		content += '<span><input type="number" name="phones['+phoneCount+'][number]"  class="form-control"></span>';
+		content += '<span class="delete delete-item"><i class=" mdi mdi-close"></i> </span>';
+		content += '</div></div></div>';
+		$('#updatePhones .modal-body').append(content);
+	    phoneCount += 1;
+	});
+	//    update phones
+	   $('#updatePhones').on('click' , '.save-data' , function(){
 		   var button = $(this);
+		   var formData = getFormData('#updatePhones .form-control');
+		   console.log(formData);
 		   $.ajax({
-			   url : "{{url('api/'.$lang.'/admin/'.$admin->id.'/payment')}}/"+button.data('id')+'/send',
+			   url : "{{route('api.admin.phone.update' , $admin->id)}}",
 			   method: 'post',
 			   headers : header,
-			   success: function(json){
-				   toastr.success(json.message , "@lang('app.payments')");
-			   },error:function(xhr){
-				   console.log(xhr);
-				   handlingAjaxError(xhr);
-			   }
-		   });
-	   });
-	//    end admin
-	   $('#end-admin').on('click' , function(){
-		   var button = $(this);
-		   $.ajax({
-			   url : "{{url('api/'.$lang.'/admin/'.$admin->id.'/finish')}}",
-			   method: 'get',
-			   headers : header,
+			   data: formData,
 			   success: function(json){
 				   toastr.success(json.message , "@lang('app.admin')");
 			   },error:function(xhr){
@@ -220,69 +266,7 @@
 			   }
 		   });
 	   });
-	   var lang = "{{$lang}}";
-	//    show result
-	   $('.responsive-data-table').on('click' , '.show-result' , function(){
-		   var thisTag = $(this);
-		   console.log('student|: '+ thisTag.data('id'));
-		   $.ajax({
-			   url: "{{url('api/'.$lang.'/admin/'.$admin->id.'/student')}}/"+thisTag.data('id')+'/result',
-			   method: 'get',
-			   headers : header,
-			   success: function(json){
-				   console.log(json);
-				   var courses = json.courses;
-				   var student = json.student;
-				//    console.log(json);
-				var totalDegree = 0;
-				var totalMaxDegree = 0;
-				var content = '';
-				content += '<h3 class="mt-2 mb-4 text-center">'+student.info.name+'</h3>';
-				   content += '<table class="table">';
-					content += '<thead>'
-						content += '<th>@lang("app.course")</th>';
-						content += '<th>@lang("app.degree")</th>';
-						content += '<th>@lang("app.entry_max_degree")</th>';
-						content += '<th>@lang("app.entry_status")</th>';
-					content += '</thead>';
-					content += '<tbody>';
-					
-						$.each(courses , function(key , course){
-							// console.log(course);
-							totalDegree += course.final_degree;
-							totalMaxDegree += course.max_degree;
-							content += '<tr>';
-								content += '<td>'
-								if(lang == 'en') content += course.title_en;
-								else content += course.title;
-								content += '</td>';
-								content += '<td>'+course.final_degree+'</td>';
-								content += '<td>'+course.max_degree+'</td>';
-								content += '<td>'
-									if(course.success == 1) 
-										content += '<span class="badge badge-success">@lang("app.status_success")</span>';
-									else 
-									content += '<span class="badge badge-danger">@lang("app.status_fail")</span>';
-								content += '</td>';
-							content += '</tr>';
-						});
-						// content += '<tr class="last-row">';
-						// 	content += '<td >@lang("app.result")</td>';
-						// 	content += '<td>'+totalDegree+'</td>';
-						// 	content += '<td>'+totalMaxDegree+'</td>';
-						// 	content +="<td></td>";
-						// content += '</tr>';
-					content += '</tbody>';
-				   content += '</table>';
-				   $('#adminResult .modal-body').html(content);
-				   
-			   },
-			   error: function(xhr){
-				   handlingAjaxError(xhr);
-				   console.log(xhr);
-			   }
-		   });
-	   });
+	   
   });
 </script>
 @endsection
