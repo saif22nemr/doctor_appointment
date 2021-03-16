@@ -20,4 +20,7 @@ class Admin extends User
     public function activities(){
     	return $this->morphMany('App\Models\Activity', 'activitable');
     }
+    public function comments(){
+    	return $this->morphMany('App\Models\Comment', 'commentable');
+    }
 }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BranchController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\SettingController;
@@ -35,6 +36,8 @@ Route::group(['prefix' => 'dashboard' , 'middleware' => 'auth' ] , function (){
     Route::resource('employee' , EmployeeController::class)->except(['store' , 'update' , 'destory' ]);
     // Patient
     Route::resource('patient' , PatientController::class)->except(['store' , 'update' , 'destory' ]);
+    // Branch
+    Route::resource('branch' , BranchController::class)->except(['store' , 'update' , 'destory' ]);
 
 
     // Setting Group

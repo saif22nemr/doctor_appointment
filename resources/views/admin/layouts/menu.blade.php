@@ -53,6 +53,14 @@
                   </li>
                   <!-- User End -->
 
+                  {{-- Branch --}}
+                  <li  class="{{(isset($title) and $title[0] == 'branch' ) ? 'active' : ''}}" >
+                    <a class="sidenav-item-link" href="{{route('branch.index')}}" 
+                      aria-expanded="false" aria-controls="branch">
+                      <i class="mdi mdi-source-branch"></i>
+                      <span class="nav-text">@lang('app.branches')</span> 
+                    </a>
+                  </li>
                    <!-- Setting Start -->
                    <li  class="has-sub {{(isset($title) and $title[0] == 'setting') ? 'active expand' : ''}}" >
                     <a class="sidenav-item-link" href="javascript:void(0)" data-toggle="collapse" data-target="#setting-list"

@@ -7,6 +7,9 @@ return [
     'create_successfully'                    => 'تم الإنشاء بنجاح',
 
     'success_task'                     => 'تم تنفيذ المهمة بنجاح',
+    'branch_list'                           => 'قائمة الفروع',
+    'create_branch'                     => 'إنشاء فرع',
+    'edit_branch'                           => 'تعديل الفرع',
 
     // Menu
     'dashboard'                 => 'نظرة عامة',
@@ -162,6 +165,11 @@ return [
     'add'                           => 'إضافة',
     'permissions'               => 'الصلاحيات',
     'roles'                         => 'صلاحيات',
+    'branches'                      => 'الفروع',
+    'branch'                    => 'الفرع',
+    'count_appointment' => 'عدد المواعيد',
+    'count_stuff'               => 'عدد الموظفين',
+    'count_patient'             => 'عدد المرضي',
 
     'results'                               => 'النتيجة',
 
@@ -320,5 +328,8 @@ return [
     'error_course_not_found'    => 'الكورس غير موجود',
     'error_room_not_exist'          => 'الغرفة غير موجودة',
     'error_not_auth'                    => 'انت غير مصرح بالدخول',
+    'error_name_unique'             => 'يجب ان يكون الاسم غير مكرر',
+    'error_branch_not_found'            => 'هذا الفرع غير موجود',
+    'error_comment_not_found'       => 'التعليق غير موجود',
 ];
 ?>

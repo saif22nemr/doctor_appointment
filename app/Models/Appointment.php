@@ -18,8 +18,14 @@ class Appointment extends Model
     public function appointment(){
         return $this->belongsTo('App\Models\Appointment' , 'appointment_id');
     }
+    public function branch(){
+        return $this->belongsTo('App\Models\Branch' , 'branch_id');
+    }
     public function activities(){
     	return $this->morphMany('App\Models\Activity', 'activitable');
+    }
+    public function comments(){
+    	return $this->morphMany('App\Models\Comment', 'commentable');
     }
 
 }

@@ -21,6 +21,16 @@ return [
     'edit_patient'                              => 'تم تعديل مريض ":patient" بنجاح',
     'delete_patient'                              => 'تم حذف مريض ":patient" بنجاح',
 
+     //branch 
+     'create_branch'                           => 'تم إنشاء فرع ":branch" بنجاح',
+     'edit_branch'                              => 'تم تعديل فرع ":branch" بنجاح',
+     'delete_branch'                              => 'تم حذف فرع ":branch" بنجاح',
+
+      //comment 
+      'create_comment'                           => 'تم إنشاء فرع ":comment" بنجاح',
+      'edit_comment'                              => 'تم تعديل فرع ":comment" بنجاح',
+      'delete_comment'                              => 'تم حذف فرع ":comment" بنجاح',
+
     'edit_phone'                                => 'تم تعديل رقم الهاتف للمستخدم :user',
 
     //question 

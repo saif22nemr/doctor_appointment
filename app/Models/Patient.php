@@ -22,4 +22,8 @@ class Patient extends Model
     	return $this->morphMany('App\Models\Activity', 'activitable');
     }
 
+    public function comments(){
+        return $this->morphMany('App\Models\Comment', 'commentable');
+    }
+
 }

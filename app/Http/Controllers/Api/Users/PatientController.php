@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Users;
 use App\Http\Controllers\Api\ApiController;
 use App\Http\Controllers\Controller;
 use App\Models\Activity;
+use App\Models\Branch;
 use App\Models\Patient;
 use App\Models\Phone;
 use App\Models\User;
@@ -37,8 +38,8 @@ class PatientController extends ApiController
        
         $sort = $request->has('sort') ? $request->sort : 'name';
         $order = $request->has('order') ? $request->order : 'asc';
-        $usersId = $users->with('phones')->orderBy($sort , $order)->get()->pluck('id');
-        $patients = Patient::whereIn('user_id' , $usersId)->with('user.phones')->get();
+        $patients = $users->with('phones' ,'patient')->orderBy($sort , $order)->get();
+        // $patients = Patient::whereIn('user_id' , $usersId)->with('user.phones')->get();
         return $this->showAll($patients);
     }
         /**
@@ -63,8 +64,11 @@ class PatientController extends ApiController
                 'social_status' => 'required|in:single,married',
                 'password'  => 'required|min:4|max:50',
                 'phones'    => 'required|array|min:1|max:10',
+                'branch_id' => 'required|integer',
             ]);
-            
+            if($request->has('branch_id') and !$branch = Branch::find($request->branch_id)){
+                return $this->errorResponse(trans('app.error_branch_not_found'));
+            }
             if($request->has('phones') and !checkPhones($request->phones))
                 return $this->errorResponse(trans('user.error_phone'));
             else{
@@ -75,7 +79,7 @@ class PatientController extends ApiController
             }
                 // return $this->errorResponse(['test' => $request->phones[0]]);
             $data = $request->only([
-                  'name' ,'email'  
+                  'name' ,'email'  , 'branch_id'
             ]);
             $data['password'] = Hash::make($request->password);
             $data['group'] = 3;
@@ -127,7 +131,8 @@ class PatientController extends ApiController
         {
             
             $patient->phones;
-            return $this->showOne($patient);
+            $user = $patient->user()->with('patient' , 'phones')->first();
+            return $this->showOne($user);
         }
     
      
@@ -154,8 +159,12 @@ class PatientController extends ApiController
                 'social_status' => 'in:single,married',
                 'password'  => 'min:4|max:50',
                 'phones'    => 'array|min:1|max:10',
+                'branch_id' => 'integer'
             ]);
           
+            if($request->has('branch_id') and !$branch = Branch::find($request->branch_id)){
+                return $this->errorResponse(trans('app.error_branch_not_found'));
+            }
             // check emails
             if($request->has('email') and $check = User::where('id' , '!=' , $patient->user_id)->where('email' , $request->email)->first()){
                 return $this->errorResponse(trans('user.error_email_unique'));
@@ -172,7 +181,7 @@ class PatientController extends ApiController
 
           
             $data = $request->only([
-                  'name' ,'email'  , 'status'
+                  'name' ,'email'  , 'status' , 'branch_id'
             ]);
             if($request->has('password')){
                 $data['password'] = Hash::make($request->password);

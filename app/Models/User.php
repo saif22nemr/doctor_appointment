@@ -25,6 +25,7 @@ class User extends Authenticatable
         'password',
         'status',
         'group',
+        'branch_id',
         'api_token'
     ];
 
@@ -61,5 +62,7 @@ class User extends Authenticatable
     public function activities(){
     	return $this->morphMany('App\Models\Activity', 'activitable');
     }
-
+    public function branch(){
+        return $this->belongsTo('App\Models\Branch' , 'branch_id');
+    }
 }

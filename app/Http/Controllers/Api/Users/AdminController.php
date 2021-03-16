@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\ApiController;
 use App\Http\Controllers\Controller;
 use App\Models\Activity;
 use App\Models\Admin;
+use App\Models\Branch;
 use App\Models\Phone;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -55,9 +56,15 @@ class AdminController extends ApiController
             'username'  => 'required|min:4|max:190|unique:users',
             'name' => 'required|min:3|max:190',
             'email' => 'email|unique:users',
+            'branch_id'    => 'required|integer',
             'password'  => 'required|min:4|max:50',
             'phones'    => 'required|array|min:1|max:10',
         ]);
+
+        // validate branch
+        if(!$branch = Branch::find($request->branch_id)){
+            return $this->errorResponse(trans('app.error_branch_not_found'));
+        }
         if(!checkPhones($request->phones))
             return $this->errorResponse(trans('user.error_phone'));
         else{
@@ -69,7 +76,7 @@ class AdminController extends ApiController
             endforeach;
         }
         $data = $request->only([
-            'username'  ,'name' ,'email'  
+            'username'  ,'name' ,'email'  , 'branch_id'
         ]);
         $data['password'] = Hash::make($request->password);
         $data['group'] = 1;
@@ -132,10 +139,15 @@ class AdminController extends ApiController
             'username'  => 'min:4|max:190',
             'name' => 'min:3|max:190',
             'email' => 'email',
+            'branch_id' => 'integer',
             'password'  => 'min:4|max:50',
             'phones'    => 'array|min:1|max:10',
             'status'    => 'in:0,1',
         ]);
+        // check branch
+        if($request->has('branch_id') and !$branch = Branch::find($request->branch_id)){
+            return $this->errorResponse(trans('app.error_branch_not_found'));
+        }
         // check username
         if($request->has('username') and $user = User::where('id' , '!=' , $admin->id)->where('username' , $request->username)->first())
             return $this->errorResponse(trans('user.error_username_unique'));
@@ -146,7 +158,7 @@ class AdminController extends ApiController
             return $this->errorResponse(trans('user.error_phone'));
       
         $data = $request->only([
-            'username'  ,'name' ,'email'  , 'status'
+            'username'  ,'name' ,'email'  , 'status' , 'branch_id'
         ]);
         if($request->has('password')){
             $data['password'] = Hash::make($request->password);

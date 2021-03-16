@@ -1,10 +1,12 @@
 <?php
 
+use App\Http\Controllers\Api\BranchController;
 use App\Http\Controllers\Api\QuestionController;
 use App\Http\Controllers\Api\SettingController;
 use App\Http\Controllers\Api\Users\AdminController;
 use App\Http\Controllers\Api\Users\EmployeeController;
 use App\Http\Controllers\Api\Users\EmployeePermissionController;
+use App\Http\Controllers\Api\Users\PatientCommentController;
 use App\Http\Controllers\Api\Users\PatientController;
 use App\Http\Controllers\Api\Users\UserController;
 use Illuminate\Http\Request;
@@ -38,9 +40,17 @@ Route::group(['middleware' => 'auth:api'] , function(){
     // Patient
     Route::resource('patient', PatientController::class , ['as' => 'api'])->except(['create' , 'edit' ]);
     Route::post('patient/{patient}/phone' , [PatientController::class , 'updatePhones'])->name('api.patient.phone.update');
+    Route::resource('patient.comment', PatientCommentController::class , ['as' => 'api'])->only(['index' , 'store' , 'destroy' ]);
+
+
+    // Branch
+    Route::resource('branch' , BranchController::class, ['as' => 'api'])->except(['create' , 'edit']);
+    Route::get('branch/{branch}/employee' , [BranchController::class , 'getStuff'])->name('api.branch.employee');
+    Route::get('branch/{branch}/patient' , [BranchController::class , 'getPatient'])->name('api.branch.patient');
+    Route::get('branch/{branch}/appointment' , [BranchController::class , 'getAppointment'])->name('api.branch.appointment');
 
     // Application
-    Route::resource('application/question' , QuestionController::class)->except(['create' , 'edit']);
+    Route::resource('application/question' , QuestionController::class, ['as' => 'api'])->except(['create' , 'edit']);
     // Setting
     Route::post('setting' , [SettingController::class , 'update'] )->name('api.setting.update');
     Route::get('setting' , [SettingController::class , 'index'] )->name('api.setting.index');

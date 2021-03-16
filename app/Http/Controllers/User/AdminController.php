@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use App\Models\Activity;
 use App\Models\Admin;
+use App\Models\Branch;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -30,7 +31,8 @@ class AdminController extends Controller
     {
         //
         $action = 'create';
-        return view('admin.user.admin_form' , compact('action'));
+        $branches = Branch::orderBy('name' , 'asc')->get();
+        return view('admin.user.admin_form' , compact('action' , 'branches'));
     }
 
   
@@ -58,8 +60,9 @@ class AdminController extends Controller
     {
         $action = 'edit';
         $admin->phones;
+        $branches = Branch::orderBy('name' , 'asc')->get();
         $group = 1;
-        return view('admin.user.admin_form'  , compact('action' , 'admin' , 'group'));
+        return view('admin.user.admin_form'  , compact('action' , 'admin' , 'group' ,'branches'));
     }
 
 }
