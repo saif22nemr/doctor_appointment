@@ -9,7 +9,7 @@ class Application extends Model
 {
     use HasFactory;
 
-    public $timestamps = false;
+    // public $timestamps = false;
     
     public function questions(){
         return $this->hasMany('App\Models\ApplicationQuestion' , 'application_id');

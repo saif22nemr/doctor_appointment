@@ -1,13 +1,13 @@
-<?php $title = ['user' , 'question'];?>
-@extends('question.layouts.app')
+<?php $title = ['setting' , 'application'];?>
+@extends('admin.layouts.app')
 @section('title' )
-	@lang('app.questions')
+	@lang('app.application')
 @endsection
 @section('content')
 
 <div class="breadcrumb-wrapper breadcrumb-contacts">
   <div>
-    <h1>@lang('app.employees')</h1>
+    <h1>@lang('app.application')</h1>
     
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb p-0">
@@ -17,7 +17,7 @@
               </a>
             </li>
             
-            <li class="breadcrumb-item active" aria-current="page">@lang('app.employees')</li>
+            <li class="breadcrumb-item active" aria-current="page">@lang('app.application')</li>
           </ol>
         </nav>
   </div>
@@ -27,9 +27,9 @@
 		<div class="col-12">
 			<div class="card card-default">
 				<div class="card-header card-header-border-bottom d-flex justify-content-between">
-					<h2>@lang('user.question_list')</h2>
+					<h2>@lang('app.question_list')</h2>
 					<div class="operation">
-						<a href="{{route('question.create')}}" class="btn btn-outline-primary btn-sm text-uppercase">
+						<a href="{{route('setting.application.create')}}" class="btn btn-outline-primary btn-sm text-uppercase">
 							<i class=" mdi mdi-plus-circle-outline"></i> @lang('app.create_new')
 						</a>
 					</div>
@@ -37,48 +37,44 @@
 				</div>
 
 				<div class="card-body">
-					<div class="responsive-data-table">
-						<table id="responsive-data-table" class="table even-odd dt-responsive dataTable no-footer dtr-inline collapsed " style="width:100%">
-							<thead>
-								<tr >
-									
-									<th>@lang('app.entry_name')</th>
-									<th>@lang('app.entry_type')</th>
-									<th>@lang('app.entry_status')</th>
-									<th>@lang('app.entry_created_at')</th>
-									<th>@lang('app.entry_action')</th>
-								</tr>
-							</thead>
+					<div class="question-list">
+					@foreach($questions as $question)
+						@if($question->answer_type == 2 or $question->answer_type == 3)
+							<div class=" question card">
+								<div class="card-header">
+									<a href="{{route('setting.application.edit' , $question->id)}}" class="text-bold question">{{$question->question}}</a>
+									@if($question->answer_type == 2)
+										<span class="question-type badge badge-primary">@lang('setting.checkbox')</span>
+									@elseif($question->answer_type == 3)
+										<span class="question-type badge badge-success">@lang('setting.selectbox')</span>
+									@endif
+								</div>
+								<div class="card-body">
+									{{-- <h4 class="text-bold mb-4">@lang('setting.chooses')</h4> --}}
+									<div class="row">
+										@foreach($question->chooses as $choose)
+											<div class="col-md-3 col-sm-4">
+												<span >- {{$choose->choose}}</span>
+											</div>
+										@endforeach
+									</div>
+								</div>
+							</div>
+						@else 
+							<div class="question card">
+								<div class="card-header">
+									<a href="{{route('setting.application.edit' , $question->id)}}" class="text-bold question">{{$question->question}}</a>
+									@if($question->answer_type == 1)
+										<span class="question-type badge badge-secondary">@lang('setting.text')</span>
+									@elseif($question->answer_type == 4)
+										<span class="question-type badge badge-danger">@lang('setting.textarea')</span>
+									@endif
+								</div>
+								{{-- <div class="card-body"></div> --}}
+							</div>
+						@endif
+					@endforeach
 
-							<tbody>
-								@if(isset($questions))
-							@foreach($questions as $question)									
-							<tr >
-								<td><a href="{{$question->group == 1 ? route('question.show' , $question) : route('employee.show' , $question->id)}}">{{$question->name}}</a></td>
-								<td>
-									@if($question->group == 1)
-										<span class="badge badge-success">@lang('app.question')</span>
-									@else
-									<span class="badge badge-primary">@lang('app.employee')</span>
-									@endif
-								</td>
-								<td>
-									@if($question->status == 1)
-										<span class="badge badge-success">@lang('app.open')</span>
-									@else
-										<span class="badge badge-danger">@lang('app.close')</span>
-									@endif
-								</td>
-							<td data-sort="{{$question->created_at}}">{{date('Y-m-d' , strtotime($question->created_at))}}</td>
-								<td>
-									<div class="dropdown show d-inline-block widget-dropdown" id="{{$question->id}}"><a class="dropdown-toggle icon-burger-mini" href="" role="button" id="dropdown-recent-order1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static"></a><ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown-recent-order1"><li class="dropdown-item"><a href="{{route('question.edit' , $question->id)}}">@lang("app.edit")</a></li><li class="dropdown-item"><a href="javascript::void(0)" class="delete-item" data-toggle="modal" data-target="#exampleModal" data-id="{{$question->id}}" data-group="{{$question->group}}" >@lang("app.delete")</a></li></ul></div>
-								</td>
-							</tr>
-							@endforeach
-							{{-- test --}}
-							@endif
-							</tbody>
-						</table>
 					</div>
 				</div>
 			</div>

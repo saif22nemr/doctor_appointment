@@ -33,6 +33,11 @@ return [
 
     'edit_phone'                                => 'تم تعديل رقم الهاتف للمستخدم :user',
 
+    // Application 
+    'create_application'                      => 'تم إنشاء نموزج للمريض ":patient"',
+    'delete_application'                      => 'تم حذف نموزج للمريض ":patient"',
+    'edit_application'                            => 'تم تعديل نموزج للمريض ":patient"',
+
     //question 
     'create_question'                           => 'تم إنشاء سؤال بنجاح',
     'edit_question'                              => 'تم تعديل سؤال بنجاح',

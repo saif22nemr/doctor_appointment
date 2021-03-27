@@ -45,9 +45,9 @@
 									<th>@lang('app.entry_id')</th>
 									<th>@lang('app.entry_address')</th>
 									<th>@lang('app.entry_job')</th>
-									<th>@lang('app.entry_social_status')</th>
-									{{-- <th>@lang('app.entry_sex')</th> --}}
-									{{-- <th>@lang('app.entry_nationality')</th> --}}
+									{{-- <th>@lang('app.entry_social_status')</th> --}}
+									<th>@lang('app.branch')</th>
+									<th>@lang('app.phones')</th>
 									<th>@lang('app.age')</th>
 									<th>@lang('app.entry_birthday')</th>
 									<th>@lang('app.entry_created_at')</th>
@@ -63,21 +63,21 @@
 								<td>{{$patient->id}}</td>
 								<td>{{$patient->address}}</td>
 								<td>{{$patient->job}}</td>
-								<td>
+								{{-- <td>
 									@if($patient->social_status == 0)
 										<span class="badge badge-primary">@lang('app.single')</span>
 									@else
 									<span class="badge badge-success">@lang('app.married')</span>
 									@endif
-								</td>
-								{{-- <td>
-									@if($patient->sex == 0)
-										<span class="badge badge-primary">@lang('app.female')</span>
-									@else
-									<span class="badge badge-success">@lang('app.male')</span>
-									@endif
 								</td> --}}
-							{{-- <td>{{$patient->nationality}}</td>	 --}}
+								<td>
+									<a href="{{route('branch.show' , $patient->user->branch_id)}}" title="@lang('app.entry_address') : {{$patient->user->branch->address}}">{{$patient->user->branch->name}}</a>
+								</td>
+								<td>
+									@foreach($patient->user->phones as $phone)
+										<p>{{$phone->number}}</p>
+									@endforeach
+								</td>
 							<td>{{$patient->age}}</td>
 							<td>{{$patient->birthday}}</td>
 							<td data-sort="{{$patient->created_at}}">{{date('Y-m-d' , strtotime($patient->created_at))}}</td>
@@ -135,7 +135,7 @@
 	    "aLengthMenu": [[20, 30, 50, 75, -1], [20, 30, 50, 75, "All"]],
 	    "pageLength": 20,
 		"dom": '<"row justify-content-between top-information"lf>rt<"row justify-content-between bottom-information"ip><"clear">',
-		'order'	: [[7, 'desc']],
+		// 'order'	: [[7, 'desc']],
 	    'language': datatableLanguage
 	   });
 	   //getpatient(patientTable);

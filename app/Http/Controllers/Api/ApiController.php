@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Traits\ApiResponse;
+use App\Models\Setting;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -19,6 +20,12 @@ class ApiController extends Controller
         if($this->user != null and count($this->user->AauthAcessToken) == 0):
             return $this->errorResponse(trans('login.error_expire_time'));
         endif;
+        $this->lang = app()->getLocale();
+        $sets =  Setting::all();
+        $this->setting = [];
+        foreach($sets as $set){
+            $this->setting[$set->name] = $set->data;
+        }
     	$this->apiGetUser();
         $this->middleware('auth:api');
     }

@@ -120,6 +120,18 @@
 									@lang('app.error_general_form')
 								</div>
 							</div>
+							<div class="col-md-6 mb-3">
+								<label for="branch">@lang('app.branches')</label>
+								<select class="select2 form-control" name="branch_id">
+									@foreach($branchs as $branch)
+										<option value="{{$branch->id}}" {{($action == 'edit' and $employee->branch_id = $branch->id) ? 'selected' :''}}>{{$branch->name}}</option>
+									@endforeach
+								</select>
+								 
+								<div class="invalid-feedback">
+									@lang('app.error_general_form')
+								</div>
+							</div>
 
 							</div> <!-- end form -->
 	

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LoginController;
@@ -36,6 +37,8 @@ Route::group(['prefix' => 'dashboard' , 'middleware' => 'auth' ] , function (){
     Route::resource('employee' , EmployeeController::class)->except(['store' , 'update' , 'destory' ]);
     // Patient
     Route::resource('patient' , PatientController::class)->except(['store' , 'update' , 'destory' ]);
+    Route::get('patient/{patient}/application' , [PatientController::class , 'createApplication'])->name('patient.application.create');
+    Route::get('patient/{patient}/application/{applicationQuestion}' , [PatientController::class , 'editApplication'])->name('patient.application.edit');
     // Branch
     Route::resource('branch' , BranchController::class)->except(['store' , 'update' , 'destory' ]);
 
@@ -45,6 +48,9 @@ Route::group(['prefix' => 'dashboard' , 'middleware' => 'auth' ] , function (){
 
         // General
         Route::get('general' , [SettingController::class , 'index'])->name('setting.index');
+        Route::get('application' , [ApplicationController::class , 'index'])->name('setting.application.index');
+        Route::get('application/question/create' , [ApplicationController::class , 'create'])->name('setting.application.create');
+        Route::get('application/question/{question}/edit' , [ApplicationController::class , 'edit'])->name('setting.application.edit');
     });
 });
 Route::get('/', function () {

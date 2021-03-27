@@ -10,7 +10,7 @@ class Activity extends Model
     use HasFactory;
 
     protected $fillable = [
-        'description'   , 'user_id' , 'activitable_type' , 'activitable_id' , 'type' , 'related_id'
+        'description'   , 'user_id' , 'activitable_type' , 'activitable_id' , 'type' , 'related_id' , 'branch_id'
     ];
 
     public function activitable()

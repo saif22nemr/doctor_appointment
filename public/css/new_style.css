@@ -97,7 +97,106 @@
 	top:17px;
 }
 
-/* Permissions Modal  */
-#updatePermissions .permissions > label{
-	
+/* Start Question*/
+.choose-list{
+	padding-top:40px;
 }
+.choose-list > div input.form-control{
+	display: inline;
+	/* margin-left:40px; */
+	width:90%
+}
+.choose-list .delete-button {
+	display: inline;
+	width: 10%;
+	position: relative;
+	margin-right:auto;
+	/* position: relative; */
+}
+
+.choose-list .delete-button .delete-item{
+	margin-top:5px;
+	position: absolute;
+	cursor: pointer;
+	/* top:10px; */
+	left:10px;
+}
+.choose-list .delete-button .delete-item i{
+	font-size:20px;
+	margin-right: auto;
+}
+
+.question-list .card.question{
+	margin-bottom:1rem;
+	position: relative;
+}
+.question-list .card-header{
+	padding:1rem;
+	border-bottom: 1px solid #CCC;
+}
+.question-list .question a.question{
+	font-size:1.5rem;
+	margin-left:20px;
+	color:#000;
+	font-weight: bold;;
+	transition: 0.3s;
+}
+.question-list .question a.question:hover{
+	color:royalblue;
+	transition: 0.3s;
+}
+.question-list .question span.question-type{
+	position: absolute;
+	top:10px;
+	left:10px;
+	text-transform: capitalize;
+	font-size:14px;
+	padding:5px 10px;
+}
+ 
+/* Start Patient */
+.application .question-title{
+	font-size:1.5rem;
+	font-weight: bold;;
+	margin-bottom:10px;
+}
+.application .checkbox-big > span{
+	font-size:1rem;
+	margin:0 10px;
+}
+.comments .comment{
+	margin-bottom:20px;
+}
+.comments .comment .sender-name a{
+	font-size:1.4rem;
+	font-weight: bold;
+}
+.comments .comment-content{
+	margin-right:10px;
+	padding:20px 10px;
+	background-color: rgb(241 241 241);
+	border-radius: 5px;;
+	position: relative;
+}
+.comments .comment-content span.datetime{
+	position: absolute;
+	top:10px;
+	left: 10px;
+	font-size:.8rem
+}
+.comments .comment-content span.delete-item{
+	position: absolute;
+	top:-27px;
+	left: 10px;
+	/* font-size:2rem; */
+	cursor: pointer;
+	z-index: 1;
+
+}
+.comments .comment-content span.delete-item i{
+	/* color; */
+	font-size:1rem;
+	color:rgb(88, 88, 88);
+	z-index: 1;
+}
+/* End Patient */

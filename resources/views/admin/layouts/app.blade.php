@@ -449,8 +449,8 @@ var datatableLanguage = {
       }
       return true;
     }
-    function deleteItem(url , id , urlBack = ''){
-      url = url + '/'+id;
+    function deleteItem(url , id , urlBack = '' , checkUrl = true){
+        url = checkUrl ? url + '/'+id : url;
         $.ajax({
             url: url,
             method: 'post' ,

@@ -49,6 +49,7 @@
 									<th>@lang('app.entry_name')</th>
 									<th>@lang('app.entry_username')</th>
 									<th>@lang('app.entry_phone')</th>
+									<th>@lang('app.branch')</th>
 									<th>@lang('app.entry_type')</th>
 									<th>@lang('app.entry_status')</th>
 									<th>@lang('app.entry_created_at')</th>
@@ -68,6 +69,9 @@
 											<p>{{$phone->number}}</p>
 										{{-- @endif --}}
 									@endforeach
+								</td>
+								<td>
+									<a href="{{route('branch.show' , $admin->branch->id)}}" title="@lang('app.entry_address') : {{$admin->branch->address}}">{{$admin->branch->name}}</a>
 								</td>
 								<td>
 									@if($admin->group == 1)

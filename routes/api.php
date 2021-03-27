@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\ApplicationController;
 use App\Http\Controllers\Api\BranchController;
 use App\Http\Controllers\Api\QuestionController;
 use App\Http\Controllers\Api\SettingController;
@@ -41,6 +42,8 @@ Route::group(['middleware' => 'auth:api'] , function(){
     Route::resource('patient', PatientController::class , ['as' => 'api'])->except(['create' , 'edit' ]);
     Route::post('patient/{patient}/phone' , [PatientController::class , 'updatePhones'])->name('api.patient.phone.update');
     Route::resource('patient.comment', PatientCommentController::class , ['as' => 'api'])->only(['index' , 'store' , 'destroy' ]);
+    Route::resource('patient.application', ApplicationController::class , ['as' => 'api'])->only(['index' , 'store' ,'update' ]);
+    Route::delete('patient/{patient}/application',[ ApplicationController::class , 'destroy'])->name('api.patient.application.destroy');
 
 
     // Branch

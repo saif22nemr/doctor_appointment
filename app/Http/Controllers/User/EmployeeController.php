@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Models\Activity;
+use App\Models\Branch;
 use App\Models\Employee;
 use App\Models\Permission;
 use Illuminate\Http\Request;
@@ -23,9 +24,10 @@ class EmployeeController extends Controller
      */
     public function create()
     {
+        $branchs = Branch::orderBy('name' , 'asc')->get();
         $action = 'create';
         $group = 2;
-        return view('admin.user.employee_form' , compact('action' , 'group'));
+        return view('admin.user.employee_form' , compact('action' , 'group' , 'branchs'));
     }
 
    
@@ -67,7 +69,8 @@ class EmployeeController extends Controller
         $action = 'edit';
         $employee->phones;
         $group = 2;
-        return view('admin.user.employee_form'  , compact('action' , 'employee' , 'group'));
+        $branchs = Branch::orderBy('name' , 'asc')->get();
+        return view('admin.user.employee_form'  , compact('action' , 'employee' , 'group' , 'branchs'));
     }
 
   

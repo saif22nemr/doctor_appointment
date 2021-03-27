@@ -71,18 +71,23 @@
                     <ul  class="collapse {{(isset($title) and $title[0] == 'setting') ? 'show' : ''}}"  id="setting-list"
                       data-parent="#sidebar-menu">
                       <div class="sub-menu">
-                        
+                        {{-- General --}}
                             <li class="{{(isset($title) and $title[0] == 'setting' and $title[1] == 'setting') ? 'active' : ''}}">
                               <a class="sidenav-item-link " href="{{route('setting.index')}}">
                                 <span class="nav-text">@lang('app.general_setting')</span>
-                                
+                              </a>
+                            </li>
+                            {{-- Appliaciton --}}
+                            <li class="{{(isset($title) and $title[0] == 'setting' and $title[1] == 'application') ? 'active' : ''}}">
+                              <a class="sidenav-item-link " href="{{route('setting.application.index')}}">
+                                <span class="nav-text">@lang('app.application')</span>
                               </a>
                             </li>
                           
                       </div>
                     </ul>
                   </li>
-                  <!-- User End -->
+                  <!-- Setting End -->
                 </ul>
               </div>
 

@@ -231,7 +231,7 @@ class AdminController extends ApiController
             // return $this->successResponse($request->all());
             // validate phones
             if(!checkPhones($request->phones))
-                return $this->errorResponse(trans('user.error_phone '));
+                return $this->errorResponse(trans('user.error_phone'));
             foreach($request->phones as $phone):
                 if($check = Phone::where('user_id' , '!=' , $admin->id)->where('number' , $phone['number'])->first() ){
                     return $this->errorResponse(trans('user.error_phone'));

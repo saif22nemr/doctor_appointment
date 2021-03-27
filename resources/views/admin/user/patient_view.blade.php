@@ -112,60 +112,106 @@
 					{{-- Tabs --}}
 					<ul class="nav nav-tabs mt-6" id="myTab" role="tablist">
 						<li class="nav-item">
-							<a class="nav-link {{(isset($tab) and $tab == 'application') ? 'active' : ''}}" id="application-tab" data-toggle="tab" href="#application" role="tab" aria-controls="application" aria-selected="true">@lang('app.applications')</a>
+							<a class="nav-link {{(isset($tab) and $tab == 'application') ? 'active' : ''}}" id="application-tab" data-toggle="tab" href="#application" role="tab" aria-controls="application" aria-selected="true">@lang('app.application')</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link {{(isset($tab) and $tab == 'comment') ? 'active' : ''}}" id="comment-tab" data-toggle="tab" href="#comment" role="tab" aria-controls="comment" aria-selected="true">@lang('app.comments')</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link {{(isset($tab) and $tab == 'activities') ? 'active' : ''}}" id="activities-tab" data-toggle="tab" href="#activities" role="tab" aria-controls="activities" aria-selected="true">@lang('app.activities')</a>
 						</li>
 					
 					</ul>
 					<div class="tab-content" id="myTabContent1">
 						{{-- Application --}}
 						<div class="tab-pane pt-3 fade  {{(isset($tab) and $tab == 'application') ? 'show active' : ''}}" id="application" role="tabpanel" aria-labelledby="application-tab">
-							<div class="operation">
-							
-								<a href="javascript::void(0)" class="btn btn-outline-primary btn-sm text-uppercase" id="end-patient">
-									<i class=" mdi mdi-plus-circle-outline"></i> @lang('patient.end_patient')
-								</a>
+							<div class="operation clearfix">
+								@if($patient->application_id != null)
+									<a href="javascript::void(0)" class="btn btn-outline-danger delete-item btn-sm text-uppercase" id="delete-application" data-toggle="modal" data-target="#deleteItem" data-id="{{$patient->id}}">
+										<i class=" mdi mdi-delete"></i> @lang('application.delete_application')
+									</a>
+								@else 
+									<a href="{{route('patient.application.create' , $patient->id)}}" class="btn btn-outline-primary btn-sm text-uppercase" id="end-patient">
+										<i class=" mdi mdi-plus-circle-outline"></i> @lang('application.create_application')
+									</a>
+								@endif
 							</div>
-							{{-- Semester List --}}
+
+							@if($patient->application != null)
+								<div class="question-list clearfix mt-6">
+									@foreach ($patient->application->questions as $item)
+										<div class=" question card">
+											<div class="card-header">
+												<a href="{{route('patient.application.edit' , [$patient->id , $item->id])}}" class="text-bold question" >{{$item->question}}</a>
+												
+											</div>
+										
+											<div class="card-body">
+												@if(count($item->answers) == 1)
+													<p class="">{{$item->answers[0]->answer}}</p>
+												@else
+													<div class="row">
+														@foreach($item->answers as $choose)
+															<div class="col-md-3 col-sm-4">
+																<span >- {{$choose->answer}}</span>
+															</div>
+														@endforeach
+													</div>
+												@endif
+												@if($item->reason != null)
+													<p><strong class="mr-2">@lang('application.reason'):</strong> {{$item->reason}}</p>
+												@endif
+											</div>
+										</div>
+									@endforeach
+								</div>
+							@endif
+							
+						</div>
+						{{-- Comments --}}
+						<div class="tab-pane pt-3 fade  {{(isset($tab) and $tab == 'comment') ? 'show active' : ''}}" id="comment" role="tabpanel" aria-labelledby="comment-tab">
+							<div class="operation clearfix">
+									<a href="javascript::void(0)" class="btn btn-outline-primary btn-sm text-uppercase" id="add-comment" data-toggle="modal" data-target="#updateComment" data-patient="{{$patient->id}}" >
+										<i class=" mdi mdi-plus-ciryle-outline"></i> @lang('user.create_comment')
+									</a>
+								
+							</div>
+							<div class="comments">
+								@foreach($patient->comments as $item)
+									<div class="comment">
+										<div class="sender-name"><a href="{{route('admin.show' , $item->user_id)}}">{{$item->user->name}}</a></div>
+										<div class="comment-content">
+											<span class="delete-item"><i class=" mdi mdi-delete"></i></span>
+											<span class="datetime">{{date('Y-m-d h:i A')}}</span>
+											<div class="comment-body">
+												{{$item->message}}
+											</div>
+										</div>
+									</div>
+								@endforeach
+							</div>
+						</div>
+
+						{{-- Activities --}}
+						<div class="tab-pane pt-3 fade  {{(isset($tab) and $tab == 'activities') ? 'show active' : ''}}" id="activities" role="tabpanel" aria-labelledby="activities-tab">
 							<div class="responsive-data-table">
 								<table id="responsive-data-table" class="table even-odd dt-responsive dataTable no-footer dtr-inline collapsed " style="width:100%">
 									<thead>
 										<tr>
-											<th>@lang('app.entry_title_ar')</th>
-											<th>@lang('app.entry_title_en')</th>
-											<th>@lang('app.entry_start_date')</th>
-											<th>@lang('app.entry_end_date')</th>
-											<th>@lang('app.entry_status')</th>
+											<th>@lang('app.entry_description')</th>
 											<th>@lang('app.entry_created_at')</th>
-											<th>@lang('app.entry_action')</th>
 										</tr>
 									</thead>
 
 									<tbody>
-										@if(isset($patient->semesters))
-									@foreach($patient->semesters as $semester)									
-									<tr>
-										<td><a href="{{route('patient.semester.show' ,[$patient->id , $semester->id])}}">{{$semester->title}}</a></td>
-										
-										<td>{{$semester->title_en}}</td>
-									<td>{{$semester->start_date}}</td>
-									<td>{{$semester->end_date}}</td>
-										<td>
-											@if($semester->status == 0)
-												<span class="badge badge-secondary">@lang('app.status_not_active')</span>
-											@elseif($semester->status == 1)
-												<span class="badge badge-primary">@lang('app.status_active')</span>
-											@elseif($semester->status == 2)
-												<span class="badge badge-success">@lang('app.status_finished')</span>
-											@endif
-										</td>
-									<td data-sort="{{$semester->created_at}}">{{date('Y-m-d' , strtotime($semester->created_at))}}</td>
-										<td>
-											<div class="dropdown show d-inline-block widget-dropdown" id="{{$semester->id}}"><a class="dropdown-toggle icon-burger-mini" href="" role="button" id="dropdown-recent-order1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static"></a><ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown-recent-order1"><li class="dropdown-item"><a href="{{route('patient.semester.edit' , [$patient->id , $semester->id])}}">@lang("app.edit")</a></li><li class="dropdown-item"><a href="javascript::void(0)" class="delete-item" data-toggle="modal" data-target="#exampleModal" data-id="{{$semester->id}}" data-type="semester">@lang("app.delete")</a></li></ul></div>
-										</td>
+									@foreach($patient->activities as $activity)
+									<td>{{$activity->description}}</td>
+									<td data-sort="{{$activity->created_at}}">{{date('Y-m-d h:i A' , strtotime($activity->created_at))}}</td>
+									
 									</tr>
 									@endforeach
 									{{-- test --}}
-									@endif
+									
 									</tbody>
 								</table>
 							</div>
@@ -177,17 +223,18 @@
 			</div>
 		</div>
 	</div>
-	<!-- Modal -->
-	<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<!-- Delete Item -->
+	<div class="modal fade" id="deleteItem" tabindex="-1" role="dialog" aria-labelledby="deleteItemLabel" aria-hidden="true">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title" id="exampleModalLabel">@lang('app.deletion')</h5>
+					<h5 class="modal-title" id="deleteItemLabel">@lang('app.deletion')</h5>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
 				<div class="modal-body">
+					@lang('application.delete_message')<br>
 					@lang('app.delete_sure')
 				</div>
 				<div class="modal-footer">
@@ -197,7 +244,32 @@
 			</div>
 		</div>
 	</div>
+{{-- Comment Form --}}
+	<div class="modal fade" id="updateComment" tabindex="-1" role="dialog" aria-labelledby="updateCommentLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="updateCommentLabel">@lang('user.edit_comment')</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-md-12">
+							<label>@lang('app.comment')</label>
 
+							<textarea class="form-control auto-focus" name="message" placeholder="@lang('user.comment_placeholder')" ></textarea>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary btn-pill" data-dismiss="modal">@lang('app.cancel')</button>
+					<button type="button" data-dismiss="modal" data-url="" data-patient="0" data-action="create" class="btn btn-primary btn-pill save-data" >@lang('app.save')</button>
+				</div>
+			</div>
+		</div>
+	</div>
 	{{-- Update Phones --}}
 	<div class="modal fade" id="updatePhones" tabindex="-1" role="dialog" aria-labelledby="updatePhonesLabel" aria-hidden="true">
 		<div class="modal-dialog" role="document">
@@ -252,22 +324,26 @@
 
 <script type="text/javascript">
 	var patients = null;
-
+	var itemId = 0;
+	
 	jQuery(document).ready(function() {
 		var urlDelete = '';
 		var itemId = 0;
+		var commentId = 0;
+		var patientId = {{$patient->id}};
+
 		var phoneCount = {{count($patient->user->phones)}};
 	   var patientTable = jQuery('#responsive-data-table').DataTable({
 	    "aLengthMenu": [[20, 30, 50, 75, -1], [20, 30, 50, 75, "All"]],
 	    "pageLength": 20,
 		"dom": '<"row justify-content-between top-information"lf>rt<"row justify-content-between bottom-information"ip><"clear">',
-		'order' : [[3, 'desc']],
+		'order' : [[1, 'desc']],
 	    'language': datatableLanguage
 	   });
 	   
 	   var type = 'else';
 	   //getpatient(patientTable);
-	   $('.card-body').on('click' , 'a.delete-item',function(e){
+	   $('.operation').on('click' , 'a.delete-item',function(e){
 	   		e.preventDefault();
 	   		var button = $(this);
 	   		// var url = $(this).attr('href');
@@ -276,10 +352,9 @@
 	   		itemId = button.data('id');
 	   });
 	   $('.sure-delete').on('click', function(){
-		   if(type == 'payment') var url = "{{url('api/'.$lang.'/patient/'.$patient->id.'/payment')}}";
-		   else var url = "{{url('api/'.$lang.'/patient/'.$patient->id.'/semester')}}";
-		 
-	   		deleteItem(url, itemId);
+		   var url = "{{url('api/patient/'.$patient->id.'/application')}}";
+		   
+	   		deleteItem(url, itemId , "{{route('patient.application.create' , $patient->id)}}" ,false);
 	   });
 	//    when phone checked 
 	$('#updatePhones ').on('change' , '.primary' , function(){
@@ -320,7 +395,38 @@
 			   }
 		   });
 	   });
-	   
+	//    Create Comment
+	
+	$('#add-comment').on('click' , function(){
+		var thisTag = $(this);
+		var button = $('#updateComment .save-data');
+		// button.data('id' , thisTag.data('id'));
+		button.data('action' , 'create');
+		$('#updateComment textarea').prop('value' , '');
+	});
+	$('#updateComment .save-data').on('click' , function(){
+		var thisTag = $(this);
+		var dataForm = getFormData('#updateComment .form-control');
+		if(thisTag.data('action') == 'edit'){
+			var url = "{{route('api.patient.comment.store' , $patient->id)}}/"+thisTag.data('id');
+		}else{
+			var url = "{{route('api.patient.comment.store' , $patient->id)}}";
+		}
+		$.ajax({
+			url  : url,
+			method : 'post',
+			headers : header,
+			data: dataForm,
+			success: function(json){
+				console.log(json);
+				toastr.success(json.message , "@lang('app.comment')")
+			},
+			error: function(xhr){
+				console.log(xhr);
+				handlingAjaxError(xhr);
+			}
+		});
+	});
 	
   });
 </script>

@@ -45,12 +45,15 @@ class QuestionController extends ApiController
             'reason'            => 'min:1,0',
             'is_many'            => 'min:1,0',
             'answer_type'      => 'required|in:checkbox,selectbox,text,textarea',
-            'chooses'       => 'array|min:2'
+            
         ]);
 
         $type = ['checkbox'  => 2, 'text' => 1 , 'selectbox' => 3 , 'textarea' => 4];
         // validate data;
         if($request->answer_type == 'checkbox' or $request->answer_type == 'selectbox'){
+            $request->validate([
+                'chooses' => 'required|array|min:2'
+            ]);
             $reason = $request->has('reason') ? $request->reason : 0;
             $isMany = $request->has('is_many') ? $request->is_many : 0;
             if(!$request->has('chooses')){

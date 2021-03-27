@@ -15,6 +15,9 @@ return [
     'update_phones'                             => 'ارقام الهاتف',
     'add_phone'                                     => 'إضافة رقم هاتف',
     'update_permissions'                    => 'تعديل الصلاحيات',
+    'create_comment'                               => 'إنشاء تعليق',
+    'edit_comment'                              => 'تعديل التعليق',
+    'comment_placeholder'               => 'اكتب تعليق هنا ..',
 
 
     // error
@@ -26,6 +29,7 @@ return [
     'error_job_not_found'       => 'هذه الوظيفة غير موجودة',
     'error_phone'                      => '   رقم الهاتف يتكون من 11 رقم وغير مكرر',
     'error_phone_unique'           => 'رقم الهاتف مكرر',
+    'error_phone_not_found'     => 'الرقم غير موجود',
     'error_user_not_found'          => 'هذا المستخدم غير موجود',
     'error_permission_not_exist'        => 'هذه الصلاحية غير موجودة', 
     'error_role_not_exist'         => 'هذه الصلاحية غير موجودة', 

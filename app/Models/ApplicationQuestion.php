@@ -16,8 +16,11 @@ class ApplicationQuestion extends Model
     public function application(){
         return $this->belongsTo('App\Models\Applications' , 'application_id');
     }
-    public function question(){
+    public function getQuestion(){
         return $this->belongsTo('App\Models\Question' , 'question_id');
+    }
+    public function answers(){
+        return $this->hasMany('App\Models\ApplicationAnswer' , 'question_id');
     }
     public function activities(){
     	return $this->morphMany('App\Models\Activity', 'activitable');

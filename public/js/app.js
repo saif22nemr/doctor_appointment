@@ -21,5 +21,7 @@ $(function(){
             thisTag.parent().find('label').append(' <span class="strick"><span>*</span></span>');
         }
     });
+
+    $('.auto-focus').focus();
 });
 

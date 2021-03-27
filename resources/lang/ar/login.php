@@ -10,6 +10,7 @@ return [
     'footer'                            => '&copy; :year Copyright Bream Ain Private School.',
     'welcome_message'     => 'مرحبا',
     'logout'                        => 'تسجيل الخروج',
+    'login_before'                 => 'تم تسجيل الدخول من قبل',
 
     // entry
     'entry_code_id'             => 'ID',

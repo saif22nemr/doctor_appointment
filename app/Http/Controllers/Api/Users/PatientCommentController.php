@@ -47,7 +47,8 @@ class PatientCommentController extends ApiController
             'type' => 'create',
             'description'  => trans('activity.create_comment' , ['comment' => $request->message]),
             'user_id' => $this->user->id,
-            'related_id' => $patient->user_id
+            'related_id' => $patient->user_id,
+            'branch_id' => $patient->user->branch_id
         ]);
         $comment->activities()->save($activity);
         return $this->successResponse([
@@ -77,7 +78,8 @@ class PatientCommentController extends ApiController
             'type' => 'delete',
             'description'  => trans('activity.delete_comment' , ['comment' => $comment->message]),
             'user_id' => $this->user->id,
-            'related_id' => $patient->user_id
+            'related_id' => $patient->user_id,
+            'branch_id' => $patient->user->branch_id
         ]);
         $comment->activities()->save($activity);
         return $this->successResponse([

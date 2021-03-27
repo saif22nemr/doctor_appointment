@@ -21,7 +21,7 @@ class CreateApplicationQuestionsTable extends Migration
             $table->bigInteger('application_id')->unsigned();
             $table->timestamps();
 
-            $table->foreign('question_id')->references('id')->on('questions')->onUpdate('cascade')->onDelete('set null');
+            $table->foreign('question_id')->references('id')->on('questions')->onUpdate('cascade')->onDelete('cascade');
             $table->foreign('application_id')->references('id')->on('applications')->onUpdate('cascade')->onDelete('cascade');
         });
     }

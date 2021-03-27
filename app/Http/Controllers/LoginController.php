@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Api\ApiController;
 use App\Models\Activity;
+use App\Models\Phone;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -17,18 +19,30 @@ class LoginController extends Controller
     }
     //
     public function login(Request $request){
-        if(Auth::check()){
-            return redirect(route('dashboard.index'));
-        }
+       
         if($request->method() == 'GET'):
             return view('admin.login');
         elseif($request->method() == 'POST'):
             // return $request->all();
-            if(!$request->has('username') or !$user = User::where('username' , $request->username)->first()){
+            if($request->has('username')){
+                if(is_numeric($request->username) and !$phone = Phone::where('number' , $request->number)->first()){
+                    throw ValidationException::withMessages([
+                        'username'   => trans('login.error_phone_not_found')
+                    ]);
+                }elseif(!$user = User::whereIn('group' , [1,2])->where('username' , $request->username)->first()){
+                    throw ValidationException::withMessages([
+                        'username'   => trans('login.error_username')
+                    ]);
+                }
+                if(isset($phone->number)){ // if found phone , it will get user
+                    $user = User::whereIn('group' , [1,2])->where('id' , $phone->user_id)->get();
+                }
+            }else{ // if not enter username or phone number
                 throw ValidationException::withMessages([
                     'username'   => trans('login.error_username')
                 ]);
             }
+            
             if(!$request->has('password') and strlen($request->password) < 4){
                 throw ValidationException::withMessages([
                     'password'   => trans('login.error_password')

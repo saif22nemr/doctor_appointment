@@ -10,6 +10,9 @@ return [
     'branch_list'                           => 'قائمة الفروع',
     'create_branch'                     => 'إنشاء فرع',
     'edit_branch'                           => 'تعديل الفرع',
+    'question_list'                     => 'قائمة الإسئلة',
+    'create_question'               => 'إنشاء سؤال',
+    'edit_question'                     => 'تعديل سؤال',
 
     // Menu
     'dashboard'                 => 'نظرة عامة',
@@ -17,22 +20,8 @@ return [
     'settings'                   => 'الإعدادات',
     'select'                        => 'تحديد', 
 
-    'taxs'                       => 'الضرائب',
-    'tags'                      => 'وصف المنتجات',
-    'templates'                 => 'القوالب',
-    'general_settings'          => 'الإعدادات العامة',
-    'users'                     => 'المستخدمين',
-    'user_admin'                => 'المدراء',
-    'user_employee'             => 'الموظفين',
-    'user_client'               => 'العملاء',
-    'user_stuff'                => 'موظفين العملاء',
-    'company_stuff'             => 'موظفين الشركة',
-    'invoices'                  => 'الفواتير',
-    'members'                   => 'الاعضاء',
-    'member'                    => 'عضو',
-    'no_member_yet'             => 'لا يوجد اعضاء',
-    'no_tickets'                => 'لا يوجد تذاكر',
-    'tickets'                   => 'التذاكر',
+    'questions'                 => 'الإسئلة',
+    'question'                  => 'سؤال',
     'activities'                => 'الانشطة',
     'subscriptions'              => 'الإشتراكات',
     'admin'                     => 'مدير',
@@ -88,13 +77,7 @@ return [
     'brief'                     => 'الموجز',
     'send_email_hint'           => 'المتغيرات : [NAME] , [EMAIL] , [DATE], [DATETIME] , [SITETITLE]',
     'show_more'                      => 'عرض المذيد',
-    'student'                       => 'طالب',
-    'students'                       => 'الطلاب',
-    'course'                            => 'كورس',
-    'courses'                            => 'كورسات',
-    'academic'                          => 'السنة الدارسية',
-    'stage'                                 => 'مرحلة',
-    'stages'                                => 'المراحل',
+    'users'                                 => 'المستخدمين',
     
 
 
@@ -170,6 +153,10 @@ return [
     'count_appointment' => 'عدد المواعيد',
     'count_stuff'               => 'عدد الموظفين',
     'count_patient'             => 'عدد المرضي',
+    'application'               => 'النموزج',
+    'comment'               => 'تعليق',
+    'comments'              => 'تعليقات',
+    'answer'                    => 'الإجابة',
 
     'results'                               => 'النتيجة',
 
