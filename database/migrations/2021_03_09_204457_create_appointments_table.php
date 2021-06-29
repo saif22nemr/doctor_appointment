@@ -21,10 +21,11 @@ class CreateAppointmentsTable extends Migration
             $table->boolean('patient_status')->default(1)->comment('1: new , 0: following');
             $table->bigInteger('patient_id')->unsigned();
             $table->bigInteger('appointment_id')->unsigned()->nullable();
-            $table->timestamps();
+            
 
             $table->foreign('patient_id')->references('id')->on('patients')->onUpdate('cascade')->onDelete('cascade');
             $table->foreign('appointment_id')->references('id')->on('appointments')->onUpdate('cascade')->onDelete('set null');
+            $table->timestamps();
         });
     }
 

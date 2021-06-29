@@ -17,6 +17,7 @@ class CreateBranchsTable extends Migration
             $table->id();
             $table->string('name')->unique();
             $table->text('address');
+            $table->tinyInteger('position')->unsigned()->unique();
             $table->timestamps();
         });
     }

@@ -3,6 +3,7 @@
 return [
 
     'web_login'                             => 'تم تسجيل الدخول',
+    'api_login'                             => 'تم تسجيل الدخول عن طريق الهاتف',
     
 
    
@@ -37,6 +38,11 @@ return [
     'create_application'                      => 'تم إنشاء نموزج للمريض ":patient"',
     'delete_application'                      => 'تم حذف نموزج للمريض ":patient"',
     'edit_application'                            => 'تم تعديل نموزج للمريض ":patient"',
+
+     // Appointment 
+     'create_appointment'                      => 'تم إنشاء حجز موعد جديد للمريض ":patient"',
+     'delete_appointment'                      => 'تم حذف حجز موعد للمريض ":patient"',
+     'edit_appointment'                           => 'تم تعديل حجز موعد للمريض ":patient"',
 
     //question 
     'create_question'                           => 'تم إنشاء سؤال بنجاح',

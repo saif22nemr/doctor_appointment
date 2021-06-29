@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Activity;
 use App\Models\Branch;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class BranchController extends ApiController
 {
@@ -33,9 +34,10 @@ class BranchController extends ApiController
         $request->validate([
             'name'  => 'required|min:1|max:190|unique:branches',
             'address'       => 'required|min:1|max:1500',
+            'position' => ['required' , 'integer' , Rule::notIn(Branch::all()->pluck('position'))],
         ]);
 
-        $data = $request->only(['name' , 'address']);
+        $data = $request->only(['name' , 'address' , 'position']);
         $branch = Branch::create($data);
 
         $activity = new Activity([

@@ -240,6 +240,7 @@ return [
     'entry_sex'                       => 'النوع',
     'entry_nationality'             => 'الجنسية',
     'entry_birthday'                => 'تاريخ الميلاد',
+    'entry_position' =>             'الاولية',
     
 
 

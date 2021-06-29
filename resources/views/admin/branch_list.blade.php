@@ -44,9 +44,7 @@
 									<th>@lang('app.entry_name')</th>
 									
 									<th>@lang('app.entry_address')</th>
-									<th>@lang('app.count_patient')</th>
-									<th>@lang('app.count_appointment')</th>
-									<th>@lang('app.count_stuff')</th>
+									<th>@lang('app.entry_position')</th>
 									<th>@lang('app.entry_created_at')</th>
 									<th>@lang('app.entry_action')</th>
 								</tr>
@@ -58,9 +56,8 @@
 							<tr >
 								<td><a href="{{route('branch.show' , $branch)}}">{{$branch->name}}</a></td>
 								<td>{{$branch->address}}</td>
-								<td>{{$branch->countPatient}}</td>
-								<td>{{$branch->countAppointment}}</td>
-								<td>{{$branch->countStuff}}</td>
+							
+								<td>{{$branch->position}}</td>
 								
 							<td data-sort="{{$branch->created_at}}">{{date('Y-m-d' , strtotime($branch->created_at))}}</td>
 								<td>
@@ -117,7 +114,7 @@
 	    "aLengthMenu": [[20, 30, 50, 75, -1], [20, 30, 50, 75, "All"]],
 	    "pageLength": 20,
 		"dom": '<"row justify-content-between top-information"lf>rt<"row justify-content-between bottom-information"ip><"clear">',
-		// 'order'	: [[7, 'desc']],
+		'order'	: [[2, 'asc']],
 	    'language': datatableLanguage
 	   });
 	   //getbranch(branchTable);

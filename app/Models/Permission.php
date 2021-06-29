@@ -9,7 +9,7 @@ class Permission extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'name' , 'key'
+        'name' , 'key' , 'view', 'create' ,'edit' ,'delete'
     ];
 
     public function users(){

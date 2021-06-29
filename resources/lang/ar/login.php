@@ -22,7 +22,8 @@ return [
     'error_id'                  => 'رقم ID لا يجب ان يكون فارغ',
     'error_username'                => 'هذا المستخدم غير موجود',
     'error_password'                => 'كلمة المرور يجب ان تكون اكبر من 4 حروف',
-    'error_password_fail'           => 'كلمة المرور غير مطابقة',
+    'error_password_fail'           => 'كلمة المرور غير صحيحة',
+    'error_login_required'          => 'يجب إدخال اسم المستخدم.'
  
 ];
 ?>

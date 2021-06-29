@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\Api\ApplicationController;
+use App\Http\Controllers\Api\AppointmentController;
 use App\Http\Controllers\Api\BranchController;
+use App\Http\Controllers\Api\LoginController;
 use App\Http\Controllers\Api\QuestionController;
 use App\Http\Controllers\Api\SettingController;
 use App\Http\Controllers\Api\Users\AdminController;
@@ -24,11 +26,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::group([ 'middleware' => 'api'] , function(){
+    Route::post('login' , [LoginController::class , 'login'])->name('api.login');
 });
 Route::group(['middleware' => 'auth:api'] , function(){
 
+    
    Route::get('user' , [UserController::class , 'index'])->name('api.user.index');
     // Admin
     Route::resource('admin', AdminController::class , ['as' => 'api'])->except(['create' , 'edit' ]);
@@ -51,6 +54,9 @@ Route::group(['middleware' => 'auth:api'] , function(){
     Route::get('branch/{branch}/employee' , [BranchController::class , 'getStuff'])->name('api.branch.employee');
     Route::get('branch/{branch}/patient' , [BranchController::class , 'getPatient'])->name('api.branch.patient');
     Route::get('branch/{branch}/appointment' , [BranchController::class , 'getAppointment'])->name('api.branch.appointment');
+
+    // Appointment
+    Route::resource('appointment' ,AppointmentController::class , ['as' => 'api'])->except(['create' , 'edit']);
 
     // Application
     Route::resource('application/question' , QuestionController::class, ['as' => 'api'])->except(['create' , 'edit']);

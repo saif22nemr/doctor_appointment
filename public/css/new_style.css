@@ -72,6 +72,10 @@
 .card-header .operation{
 	margin:0;
 }
+.strick > span{
+	color: red;
+	font-size:20px;
+}
 /* End General */
 .background-danger{
 	background:rgb(240 17 17 / 8%);
@@ -200,3 +204,13 @@
 	z-index: 1;
 }
 /* End Patient */
+
+/* Start Employee */
+.modal-body.permissions > .row{
+	padding:10px;
+	border-bottom: 1px solid #CCC;
+}
+.modal .modal-title > span{
+	font-size: 1.2em;
+	font-weight: bold;
+}

@@ -256,12 +256,15 @@
 							</div>
 							<div class="col-sm-9">
 								<div class="row">
+									@if($permission->view)
 									<div class="col-md-3">
 										<label class="control control-checkbox checkbox-primary checkbox-big">
-										<input type="checkbox" name="permissions[{{$permission->id}}][view]" value="1" class=" form-control" {{(isset($userPermissions[$permission->id]) and $userPermissions[$permission->id]['view'] == 1) ? 'checked' : ''}} />@lang('app.show')
-										<div class="control-indicator"></div>
-									</label>
-								</div>
+											<input type="checkbox" name="permissions[{{$permission->id}}][view]" value="1" class=" form-control" {{(isset($userPermissions[$permission->id]) and $userPermissions[$permission->id]['view'] == 1) ? 'checked' : ''}} />@lang('app.show')
+											<div class="control-indicator"></div>
+										</label>
+									</div>
+									@endif
+									@if($permission->create)
 									<div class="col-md-3">
 										<label class="control control-checkbox checkbox-primary checkbox-big">
 											<input type="checkbox" name="permissions[{{$permission->id}}][create]" value="1" class=" form-control" {{(isset($userPermissions[$permission->id]) and $userPermissions[$permission->id]['create'] == 1) ? 'checked' : ''}} />@lang('app.create')
@@ -269,18 +272,23 @@
 										</label>
 		
 									</div>
+									@endif
+									@if($permission->edit)
 									<div class="col-md-3">
 										<label class="control control-checkbox checkbox-primary checkbox-big">
 											<input type="checkbox" name="permissions[{{$permission->id}}][edit]" value="1" class=" form-control" {{(isset($userPermissions[$permission->id]) and $userPermissions[$permission->id]['edit'] == 1) ? 'checked' : ''}} />@lang('app.edit')
 											<div class="control-indicator"></div>
 										</label>
 									</div>
+									@endif
+									@if($permission->delete)
 									<div class="col-md-3">
 										<label class="control control-checkbox checkbox-primary checkbox-big">
 											<input type="checkbox" name="permissions[{{$permission->id}}][delete]" value="1" class=" form-control" {{(isset($userPermissions[$permission->id]) and $userPermissions[$permission->id]['delete'] == 1) ? 'checked' : ''}} />@lang('app.delete')
 											<div class="control-indicator"></div>
 										</label>
 									</div>
+									@endif
 								</div>
 								
 								

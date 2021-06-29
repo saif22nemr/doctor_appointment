@@ -69,6 +69,12 @@
 									@lang('app.error_general_form')
 								</div>
 							</div>
+							<div class="col-md-6 mb-3">
+								<label for="position">@lang('app.entry_position')</label>
+								<input type="number" class="form-control" title="position" name="position" id="position" placeholder="@lang('app.entry_position')"
+								 aria-describedby="inputGroupPrepend3" required value="{{$action == 'edit' ? $branch->position : old('position')}}">
+								
+							</div>
 							
 
 							</div> <!-- end form -->
