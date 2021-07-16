@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\Api\AppointmentCommentController;
 use App\Http\Controllers\ApplicationController;
+use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LoginController;
@@ -43,6 +45,9 @@ Route::group(['prefix' => 'dashboard' , 'middleware' => 'auth' ] , function (){
     Route::resource('branch' , BranchController::class)->except(['store' , 'update' , 'destory' ]);
 
 
+    // Appointments 
+    Route::resource('appointment' , AppointmentController::class)->except(['store' , 'update' , 'destory']);
+   
     // Setting Group
     Route::group(['prefix' => 'setting'] , function(){
 

@@ -23,5 +23,12 @@ $(function(){
     });
 
     $('.auto-focus').focus();
+
+    $('#updatePhones').on('click' , '.delete.delete-item' , function(){
+        $(this).parent().remove();
+    });
+    $('.comments').on('click' , '.comment .delete-item' , function(){
+        // $(this).parent().parent().remove();
+    });
 });
 

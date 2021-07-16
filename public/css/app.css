@@ -31,6 +31,10 @@
 *{
     font-family: 'Tajawal' !important;
     font-size: 14px;
+    font-weight: 500;
+}
+.btn-sm, .btn-group-sm > .btn{
+    font-size: 0.85rem;
 }
 body,
 .breadcrumb .breadcrumb-item a{

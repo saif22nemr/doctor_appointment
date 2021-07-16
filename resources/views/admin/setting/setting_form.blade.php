@@ -87,7 +87,22 @@
 												@lang('app.error_general_form')
 											</div>
 										</div>
-										
+										<div class="col-md-6 mb-3">
+											<label for="meta_image">@lang('app.entry_site_meta_image')</label>
+											<input type="file" class="form-control" name="meta_image" id="meta_image" 
+											aria-describedby="inputGroupPrepend3"  >
+											<div class="invalid-feedback">
+												@lang('app.error_general_form')
+											</div>
+										</div>
+										<div class="col-md-6 mb-3">
+											<label for="site_icon">@lang('app.entry_site_icon')</label>
+											<input type="file" class="form-control" name="site_icon" id="site_icon" 
+											aria-describedby="inputGroupPrepend3"  >
+											<div class="invalid-feedback">
+												@lang('app.error_general_form')
+											</div>
+										</div>
 									</div>
 								</fieldset>
 							

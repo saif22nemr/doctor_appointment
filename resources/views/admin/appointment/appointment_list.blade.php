@@ -1,12 +1,12 @@
-<?php $title = ['user' , 'patient'];?>
+<?php $title = ['appointment' , $status];?>
 @extends('admin.layouts.app')
 @section('title' )
-	@lang('app.patients')
+	@lang('app.appointments')
 @endsection
 @section('content')
 <div class="breadcrumb-wrapper breadcrumb-contacts">
   <div>
-    <h1>@lang('app.patients')</h1>
+    <h1>@lang('app.appointments')</h1>
     
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb p-0">
@@ -16,7 +16,7 @@
               </a>
             </li>
             
-            <li class="breadcrumb-item active" aria-current="page">@lang('app.patients')</li>
+            <li class="breadcrumb-item active" aria-current="page">@lang('app.appointments')</li>
           </ol>
         </nav>
   </div>
@@ -26,9 +26,9 @@
 		<div class="col-12">
 			<div class="card card-default">
 				<div class="card-header card-header-border-bottom d-flex justify-content-between">
-					<h2>@lang('user.patient_list')</h2>
+					<h2>@lang('appointment.appointment_list_'.$status)</h2>
 					<div class="operation">
-						<a href="{{route('patient.create')}}" class="btn btn-outline-primary btn-sm text-uppercase">
+						<a href="{{route('appointment.create')}}" class="btn btn-outline-primary btn-sm text-uppercase">
 							<i class=" mdi mdi-plus-circle-outline"></i> @lang('app.create_new')
 						</a>
 					</div>
@@ -40,54 +40,22 @@
 						<table id="responsive-data-table" class="table even-odd dt-responsive dataTable no-footer dtr-inline collapsed " style="width:100%">
 							<thead>
 								<tr >
+									
 									<th>@lang('app.entry_id')</th>
-									<th>@lang('app.entry_name')</th>
-									<th>@lang('app.entry_address')</th>
-									<th>@lang('app.entry_job')</th>
-									{{-- <th>@lang('app.entry_social_status')</th> --}}
-									{{-- <th>@lang('app.branch')</th> --}}
-									<th>@lang('app.phones')</th>
-									<th>@lang('app.age')</th>
-									{{-- <th>@lang('app.entry_birthday')</th> --}}
+									<th>@lang('app.entry_title')</th>
+									<th>@lang('app.patient')</th>
+									<th>@lang('app.entry_date')</th>
+									<th>@lang('app.entry_time')</th>
+									@if($status == 'all')
+									<th>@lang('app.entry_status')</th>
+									@endif
 									<th>@lang('app.entry_created_at')</th>
 									<th>@lang('app.entry_action')</th>
 								</tr>
 							</thead>
 
 							<tbody>
-								@if(isset($patients))
-							@foreach($patients as $patient)									
-							<tr class="{{$patient->user->status == 0 ? 'background-danger' : ''}}">
-								<td>{{$patient->id}}</td>
-								<td><a href="{{route('patient.show' , $patient)}}">{{$patient->user->name}}</a></td>
 								
-								<td>{{$patient->address}}</td>
-								<td>{{$patient->job}}</td>
-								{{-- <td>
-									@if($patient->social_status == 0)
-										<span class="badge badge-primary">@lang('app.single')</span>
-									@else
-									<span class="badge badge-success">@lang('app.married')</span>
-									@endif
-								</td> --}}
-								{{-- <td>
-									<a href="{{route('branch.show' , $patient->user->branch_id)}}" title="@lang('app.entry_address') : {{$patient->user->branch->address}}">{{$patient->user->branch->name}}</a>
-								</td> --}}
-								<td>
-									@foreach($patient->user->phones as $phone)
-										<p>{{$phone->number}}</p>
-									@endforeach
-								</td>
-							<td>{{$patient->age}}</td>
-							{{-- <td>{{$patient->birthday}}</td> --}}
-							<td data-sort="{{$patient->created_at}}">{{date('Y-m-d' , strtotime($patient->created_at))}}</td>
-								<td>
-									<div class="dropdown show d-inline-block widget-dropdown" id="{{$patient->id}}"><a class="dropdown-toggle icon-burger-mini" href="" role="button" id="dropdown-recent-order1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static"></a><ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown-recent-order1"><li class="dropdown-item"><a href="{{route('patient.edit' , $patient->id)}}">@lang("app.edit")</a></li><li class="dropdown-item"><a href="javascript::void(0)" class="delete-item" data-toggle="modal" data-target="#exampleModal" data-id="{{$patient->id}}" >@lang("app.delete")</a></li></ul></div>
-								</td>
-							</tr>
-							@endforeach
-							{{-- test --}}
-							@endif
 							</tbody>
 						</table>
 					</div>
@@ -124,21 +92,42 @@
 <script src="{{asset('assets/plugins/data-tables/datatables.responsive.min.js')}}"></script>
 
 <script type="text/javascript">
-	var patients = null;
+	var appointments = null;
 	
 
 	;
 	jQuery(document).ready(function() {
 		var urlDelete = '';
 		var itemId = 0;
-	   var patientTable = jQuery('#responsive-data-table').DataTable({
+	   var appointmentTable = jQuery('#responsive-data-table').DataTable({
 	    "aLengthMenu": [[20, 30, 50, 75, -1], [20, 30, 50, 75, "All"]],
 	    "pageLength": 20,
 		"dom": '<"row justify-content-between top-information"lf>rt<"row justify-content-between bottom-information"ip><"clear">',
-		// 'order'	: [[7, 'desc']],
+		'order'	: [[{{$status == 'all' ? 6 : 5}}, 'desc']],
+		'ajax' :{
+			'url' :  "{{route('api.appointment.index')}}?status={{$status}}&datatable=1",
+			'headers' : header,
+		},
+		"deferRender": true,
+		'columns' : [
+			{'data' : 'id'},
+			{'data' : 'title_tag'},
+			{'data' : 'patient_tag'},
+			{'data' : 'date'},
+			{'data' : 'time_tag'},
+			@if($status == 'all')
+			{'data' : 'status_tag'},
+			@endif
+			// {'data' : 'created_data.string' , 'sort' : 'created_date'},
+			{'data' : {
+				'_':  "created_date.string",
+				'sort' : 'created_date.timestamp'
+			} },
+			{'data' : 'action'},
+	   ],
 	    'language': datatableLanguage
 	   });
-	   //getpatient(patientTable);
+	   //getappointment(appointmentTable);
 	   $('.card-body').on('click' , 'a.delete-item',function(e){
 	   		e.preventDefault();
 	   		var button = $(this);
@@ -148,7 +137,7 @@
 	   		itemId = button.data('id');
 	   });
 	   $('.sure-delete').on('click', function(){
-	   		deleteItem("{{url('api')}}/patient", itemId);
+	   		deleteItem("{{url('api')}}/appointment", itemId);
 	   });
   });
 </script>

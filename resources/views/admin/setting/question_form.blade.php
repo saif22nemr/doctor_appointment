@@ -48,7 +48,7 @@
 					</h2>
 
 					<div class="operation">
-						@if($action ==' create')
+						@if($action =='edit')
 						<a href="javascript:void(0)" class="btn btn-outline-danger btn-sm text-uppercase delete-item" data-toggle="modal" data-target="#deleteItem"  data-id="{{$question->id}}">
 							<i class=" mdi mdi-delete"></i> @lang('app.delete')
 						</a>

@@ -65,7 +65,7 @@
             <div class="card-header bg-primary">
               <div class="app-brand">
                 <a href="{{route('dashboard.index')}}">
-				<img class="brand-icon" src="{{asset('image/logo.png')}}">
+				<img class="brand-icon" src="{{asset('storage/'.get_setting('site_icon'))}}">
 				<span class="brand-name">{{ $setting['site_title'] }}</span>
                 </a>
               </div>

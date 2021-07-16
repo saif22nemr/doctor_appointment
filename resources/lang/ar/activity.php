@@ -28,13 +28,13 @@ return [
      'delete_branch'                              => 'تم حذف فرع ":branch" بنجاح',
 
       //comment 
-      'create_comment'                           => 'تم إنشاء فرع ":comment" بنجاح',
-      'edit_comment'                              => 'تم تعديل فرع ":comment" بنجاح',
-      'delete_comment'                              => 'تم حذف فرع ":comment" بنجاح',
+      'create_comment'                           => 'تم إنشاء تعليق ":comment" بنجاح',
+      'edit_comment'                              => 'تم تعديل تعليق ":comment" بنجاح',
+      'delete_comment'                              => 'تم حذف تعليق ":comment" بنجاح',
 
     'edit_phone'                                => 'تم تعديل رقم الهاتف للمستخدم :user',
 
-    // Application 
+    // Application  
     'create_application'                      => 'تم إنشاء نموزج للمريض ":patient"',
     'delete_application'                      => 'تم حذف نموزج للمريض ":patient"',
     'edit_application'                            => 'تم تعديل نموزج للمريض ":patient"',

@@ -65,11 +65,7 @@
 						<div class="col-sm-4 mb-3">
 							<h4>@lang('app.entry_social_status')</h4>
 						<p>
-							@if($patient->social_status == 0)
-								<span class="badge badge-primary">@lang('app.single')</span>
-							@else
-								<span class="badge badge-success">@lang('app.married')</span>
-							@endif
+							{{$patient->social_status }}
 						</p>
 						</div>
 						<div class="col-sm-4 mb-3">
@@ -181,8 +177,8 @@
 									<div class="comment">
 										<div class="sender-name"><a href="{{route('admin.show' , $item->user_id)}}">{{$item->user->name}}</a></div>
 										<div class="comment-content">
-											<span class="delete-item"><i class=" mdi mdi-delete"></i></span>
-											<span class="datetime">{{date('Y-m-d h:i A')}}</span>
+											<span class="delete-item" data-id="{{$item->id}}"><i class=" mdi mdi-delete"></i></span>
+											<span class="datetime">{{date('Y-m-d h:i A' , strtotime($item->created_at))}}</span>
 											<div class="comment-body">
 												{{$item->message}}
 											</div>
@@ -420,6 +416,26 @@
 			success: function(json){
 				console.log(json);
 				toastr.success(json.message , "@lang('app.comment')")
+				window.location.replace('{{route("patient.show" , $patient->id)}}');
+			},
+			error: function(xhr){
+				console.log(xhr);
+				handlingAjaxError(xhr);
+			}
+		});
+	});
+
+	$('.comments').on('click' , '.comment .delete-item' , function(){
+		var tag = $(this);
+		$.ajax({
+			url : "{{route('api.patient.show' , $patient->id)}}/comment/"+ tag.data('id'),
+			method: 'post',
+			headers: header,
+			data : {'_method' : 'DELETE'},
+			success : function(json){
+				console.log(json);
+				tag.parent().parent().slideUp();
+				toastr.success(json.message  , "{{ trans('app.comment')}}");
 			},
 			error: function(xhr){
 				console.log(xhr);

@@ -20,7 +20,7 @@ class CreatePatientsTable extends Migration
             $table->boolean('sex')->default(0)->comment('0: male , 1: female');
             $table->string('nationality' , 40);
             $table->text('address');
-            $table->boolean('social_status')->default(0)->comment('0: single  , 1: married');
+            $table->string('social_status');
             $table->bigInteger('user_id')->unsigned();
             $table->bigInteger('application_id')->unsigned()->nullable();
             $table->timestamps();

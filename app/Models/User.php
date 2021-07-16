@@ -55,7 +55,9 @@ class User extends Authenticatable
     public function patient(){
         return $this->hasOne('App\Models\Patient' , 'user_id');
     }
-    
+    public function permission(){
+        return $this->hasMany('App\Models\UserPermission' , 'user_id');
+    }
     public function OauthAccessToken(){
         return $this->hasMany('App\Models\OauthAccessToken' , 'user_id');
     }

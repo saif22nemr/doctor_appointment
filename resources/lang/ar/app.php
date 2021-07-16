@@ -157,6 +157,13 @@ return [
     'comment'               => 'تعليق',
     'comments'              => 'تعليقات',
     'answer'                    => 'الإجابة',
+    'appointment'           => 'الحجز',
+    'appointments'           => 'الحجزات',
+    'all'                               => 'الكل',
+    'pending'                   => 'الانتظار',
+    'canceled'                  => 'الملغى',
+    'finished'                      => 'المنتهي',
+    'appointment_request'   => 'طلب حجزات',
 
     'results'                               => 'النتيجة',
 
@@ -301,6 +308,9 @@ return [
     'entry_image'                       => 'صورة',
     'entry_message_hint'            => 'اخبرنا عن افكارك ...',
     'entry_key'                             => 'كود',
+    'entry_time'                            => 'الوقت',
+    'entry_patient_status'          => 'حالة الكشف',
+    'entry_appointment_id'          => 'رقم الحجز',
 
 
     // error

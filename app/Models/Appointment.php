@@ -8,19 +8,19 @@ use Illuminate\Database\Eloquent\Model;
 class Appointment extends Model
 {
     /**
-     *  status => [1 => pending , 2: finished , 0:cancel]
+     *  status => [1 => pending , 2: finished , 0:cancel , '3: appointment_request]
      *  patient_status => [1: new appointment , 2: following]
      *  
      */
     use HasFactory;
     protected $fillable = [
-        'date' , 'hour' ,'patient_id' , 'appointment_id'  , 'patient_status' , 'status' ,  'title' ,'note' , 'branch_id'
+        'date' , 'time' ,'patient_id' , 'appointment_id'  , 'patient_status' , 'status' ,  'title' ,'note' , 'branch_id'
     ];
     
     public function patient(){
         return $this->belongsTo('App\Models\Patient' , 'patient_id');
     }
-    public function appointment(){
+    public function followAppointment(){
         return $this->belongsTo('App\Models\Appointment' , 'appointment_id');
     }
     public function branch(){

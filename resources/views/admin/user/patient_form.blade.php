@@ -98,10 +98,7 @@
 
 							<div class="col-md-6 mb-3">
 								<label for="social_status">@lang('app.entry_social_status')</label>
-								<select class="select2 form-control" id="social_status" name="social_status">
-									<option value="married" {{($action == 'edit' and $patient->social_status == 1) ? 'selected' : ''}}>@lang('app.married')</option>
-									<option value="single" {{($action == 'edit' and $patient->social_status == 0) ? 'selected' : ''}}>@lang('app.single')</option>
-								</select>
+								<input type="text" name="social_status" class="form-control" value="{{$action == 'edit' ?? $patient->social_status}}">
 								<div class="invalid-feedback">
 									@lang('app.error_general_form')
 								</div>

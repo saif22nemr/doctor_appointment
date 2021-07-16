@@ -1,7 +1,12 @@
 <?php
 
+use App\Models\Permission;
+use App\Models\Setting;
+use App\Models\UserPermission;
 
-
+function user(){
+	return auth()->user();
+}
 function checkPhones(array $phones){
 	if(count($phones) == 0) return false;
 	$check = true;
@@ -20,4 +25,51 @@ function calucAge($birthday){
 	return date_diff(date_create($birthday), date_create('today'))->y;
 
 }
-//
+
+// get setting from database
+// return string or array
+function get_setting($key = null){
+	if(!empty($key)){
+		if($setting = Setting::where('name' , $key)->first()){
+			return $setting->data;
+		}else{
+			return 'test';
+		}
+	}else{
+		$settings = Setting::all();
+		$settingsArray = [];
+		foreach($settings as $key => $value){
+			$settingsArray[$value->name] = $value->data;
+		}
+		return $settingsArray;
+	}
+
+	
+}
+
+// check permission for employee
+function has_permission($permission = '' , $role = ''){
+	$user = user();
+	if($user->group == 1){
+		return true;
+	}elseif($user->group == 2){
+		$whiteList = [
+			'dashboard'
+		];
+		if($permission == '' or $role == '') {
+			return false;
+		}
+		foreach($whiteList as $item){
+			if($item == $permission) return true;
+		}
+		
+		if($permission = Permission::where('key' , $permission)->first()){
+			if($check = UserPermission::where('permission_id' , $permission->id)->where($role , 1)->first()){
+				return true;
+			}
+		}
+
+	}
+
+	return false;
+}

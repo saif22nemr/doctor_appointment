@@ -5,7 +5,7 @@
             <!-- Aplication Brand -->
             <div class="app-brand">
               <a href="{{route('dashboard.index')}}" title="{{$lang == 'ar' ? $setting['site_title'] : $setting['site_title_en'] }}">
-                <img src="{{asset('image/logo.png')}}" alt="icon" class="brand-icon" style="height:60px;width:50px">
+                <img src="{{asset('storage/'.get_setting('site_icon'))}}" alt="icon" class="brand-icon" style="height:60px;width:50px">
                 <span class="brand-name text-truncate">{{$lang == 'ar' ? $setting['site_title'] : $setting['site_title_en'] }}</span>
               </a>
             </div>
@@ -22,6 +22,69 @@
                       <span class="nav-text">@lang('app.dashboard')</span> 
                     </a>
                   </li>
+                  {{-- Start Apppintment --}}
+                  @if(has_permission('appointment' , 'view') )
+                  <li  class="has-sub {{(isset($title) and $title[0] == 'appointment') ? 'active expand' : ''}}" >
+                    <a class="sidenav-item-link" href="javascript:void(0)" data-toggle="collapse" data-target="#appointment-list"
+                      aria-expanded="false" aria-controls="appointment-list">
+                      <i class="mdi mdi-doctor"></i>
+                      <span class="nav-text">@lang('app.appointments')</span> <b class="caret"></b>
+                    </a>
+                    <ul  class="collapse {{(isset($title) and $title[0] == 'appointment') ? 'show' : ''}}"  id="appointment-list"
+                      data-parent="#sidebar-menu">
+                      <div class="sub-menu">
+                        @if( has_permission('appointment' , 'create')  )
+                            <li class="{{(isset($title) and $title[0] == 'appointment' and $title[1] == 'create') ? 'active' : ''}}">
+                              <a class="sidenav-item-link " href="{{route('appointment.create')}}">
+                                <span class="nav-text">@lang('appointment.create_appointment')</span>
+                                
+                              </a>
+                            </li>
+                            @endif
+
+                        @if( has_permission('appointment' , 'view') or has_permission('appointment' , 'create') )
+                            <li class="{{(isset($title) and $title[0] == 'appointment' and $title[1] == 'all') ? 'active' : ''}}">
+                              <a class="sidenav-item-link " href="{{route('appointment.index')}}?status=all">
+                                <span class="nav-text">@lang('appointment.all')</span>
+                                
+                              </a>
+                            </li>
+                            @endif
+                            
+                            @if(has_permission('appointment' , 'view') )
+                              <li class="{{(isset($title) and $title[0] == 'appointment' and $title[1] == 'pending') ? 'active' : ''}}">
+                                <a class="sidenav-item-link " href="{{route('appointment.index')}}?status=pending">
+                                  <span class="nav-text">@lang('appointment.pending')</span>
+                                </a>
+                              </li>
+                              @endif
+                              @if(has_permission('appointment' , 'view') )
+                              <li class="{{(isset($title) and $title[0] == 'appointment' and $title[1] == 'finished') ? 'active' : ''}}">
+                                <a class="sidenav-item-link " href="{{route('appointment.index')}}?status=finished">
+                                  <span class="nav-text">@lang('appointment.finished')</span>
+                                </a>
+                              </li>
+                              @endif
+                              @if(has_permission('appointment' , 'view') )
+                              <li class="{{(isset($title) and $title[0] == 'appointment' and $title[1] == 'canceled') ? 'active' : ''}}">
+                                <a class="sidenav-item-link " href="{{route('appointment.index')}}?status=canceled">
+                                  <span class="nav-text">@lang('appointment.canceled')</span>
+                                </a>
+                              </li>
+                              @endif
+                              @if(has_permission('appointment' , 'view') )
+                              <li class="{{(isset($title) and $title[0] == 'appointment' and $title[1] == 'appointment_request') ? 'active' : ''}}">
+                                <a class="sidenav-item-link " href="{{route('appointment.index')}}?status=appointment_request">
+                                  <span class="nav-text">@lang('appointment.appointment_request')</span>
+                                </a>
+                              </li>
+                              @endif
+                      </div>
+                    </ul>
+                  </li>
+                  @endif
+                  {{-- End Appointment --}}
+                  
                   <!-- Users Start -->
                   <li  class="has-sub {{(isset($title) and $title[0] == 'user') ? 'active expand' : ''}}" >
                     <a class="sidenav-item-link" href="javascript:void(0)" data-toggle="collapse" data-target="#user-list"

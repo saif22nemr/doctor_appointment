@@ -12,6 +12,9 @@ return [
     'add_choose'          => 'إضافة إختيار',
     'write_choose'                    => 'اكتب نص',
     'add_permission'                => 'إضافة صلاحية',
+    'edit_setting' => 'تعديل الإعدادات',
+    'site_info'                 => 'معلومات الموقع',
+    'email_info'    =>      'معلومات الاميل',
 
 
 ];

@@ -61,7 +61,7 @@ class PatientController extends ApiController
                 'nationality'      => 'required|min:1|max:190',
                 'job'      => 'required|min:1|max:190',
                 'address'      => 'required|min:1|max:2000',
-                'social_status' => 'required|in:single,married',
+                'social_status' => 'required|string|min:1|max:190',
                 'password'  => 'required|min:4|max:50',
                 'phones'    => 'required|array|min:1|max:10',
                 'branch_id' => 'required|integer',
@@ -86,10 +86,9 @@ class PatientController extends ApiController
             $data['status'] = 1;
             $user = User::create($data);
             $dataPatient = $request->only([
-                'birthday'  ,'job' ,'address' ,'nationality' 
+                'birthday'  ,'job' ,'address' ,'nationality'  , 'social_status'
             ]);
             $dataPatient['sex'] = $request->sex == 'male' ? 1 : 0;
-            $dataPatient['social_status'] = $request->sex == 'single' ? 0 : 1;
             $dataPatient['user_id'] = $user->id;
             $patient = Patient::create($dataPatient);
             // store phones number
@@ -156,8 +155,8 @@ class PatientController extends ApiController
                 'nationality'      => 'min:1|max:190',
                 'job'      => 'min:1|max:190',
                 'address'      => 'min:1|max:2000',
-                'social_status' => 'in:single,married',
-                'password'  => 'min:4|max:50',
+                'social_status' => 'string|min:1|max:190',
+                'password'  => 'min:4|max:20',
                 'phones'    => 'array|min:1|max:10',
                 'branch_id' => 'integer'
             ]);
@@ -181,7 +180,7 @@ class PatientController extends ApiController
 
           
             $data = $request->only([
-                  'name' ,'email'  , 'status' , 'branch_id'
+                  'name' ,'email'  , 'status' , 'branch_id' 
             ]);
             if($request->has('password')){
                 $data['password'] = Hash::make($request->password);
@@ -193,12 +192,11 @@ class PatientController extends ApiController
             }
             // update patient data
             $patientData = $request->only([
-                'birthday'  , 'job' , 'address' , 'nationality' 
+                'birthday'  , 'job' , 'address' , 'nationality'  , 'social_status'
             ]);
             if($request->has('sex'))
                 $patientData['sex'] = $request->sex == 'male' ? 1 : 0;
-            if($request->has('social_status'))
-                $patientData['social_status'] = $request->social_status == 'single' ? 0 : 1;
+            
             $patient->fill($patientData);
             $patient->save();
             if($request->has('phones')):

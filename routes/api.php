@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\ApplicationController;
+use App\Http\Controllers\Api\AppointmentCommentController;
 use App\Http\Controllers\Api\AppointmentController;
 use App\Http\Controllers\Api\BranchController;
 use App\Http\Controllers\Api\LoginController;
@@ -57,6 +58,7 @@ Route::group(['middleware' => 'auth:api'] , function(){
 
     // Appointment
     Route::resource('appointment' ,AppointmentController::class , ['as' => 'api'])->except(['create' , 'edit']);
+    Route::resource('appointment.comment' , AppointmentCommentController::class , ['as' => 'api'])->only(['store' , 'index' , 'destory']);
 
     // Application
     Route::resource('application/question' , QuestionController::class, ['as' => 'api'])->except(['create' , 'edit']);
