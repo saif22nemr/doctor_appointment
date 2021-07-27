@@ -220,3 +220,17 @@
 .appointment-id.hide{
 	display: none;
 }
+
+/* Start Dashboard */
+.my-widget .card.widget-block p{
+	color: #FFF;
+	font-weight: bold;
+}
+.my-widget .card.widget-block p,
+.my-widget .media.widget-media p{
+	font-size: 1.3rem;
+	/* font-weight: bold; */
+	
+}
+
+/* End Dashboard */

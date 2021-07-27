@@ -3,13 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Api\ApiController;
+use App\Mail\ForgetPasswordMail;
 use App\Models\Activity;
+use App\Models\Admin;
 use App\Models\Phone;
+use App\Models\Setting;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Str;
 
 class LoginController extends Controller
 {
@@ -19,7 +24,9 @@ class LoginController extends Controller
     }
     //
     public function login(Request $request){
-       
+       if(auth()->check()){
+           return redirect(route('dashboard.index'));
+       }
         if($request->method() == 'GET'):
             return view('admin.login');
         elseif($request->method() == 'POST'):
@@ -62,7 +69,8 @@ class LoginController extends Controller
             $token = $user->createToken('Web Token')->accessToken;
             $user->api_token = $token;
             $user->save();
-            Auth::login($user);
+            $rememberMe = $request->has('remember_me') ? true : false;
+            Auth::login($user , $rememberMe);
             session()->put('auth' , [
                 'access_token'  => $token,
                 'user' => $user
@@ -86,5 +94,66 @@ class LoginController extends Controller
         $user->save();
         Auth::logout();
         return redirect(route('dashboard.login'));
+    }
+
+    public function forgetPasswordGet(){
+        if(auth()->check()){
+            return redirect(route('dashboard.index'));
+        }else{
+            return view('admin.forget_password');
+        }
+    }
+
+    public function forgetPasswordPost(Request $request){
+        $request->validate([
+            'email' => 'required|email',
+        ]);
+        if(!$admin = Admin::where('email' , $request->email)->first()){
+            throw ValidationException::withMessages([
+                'email' => trans('login.error_email_not_found')
+            ]);
+        }
+        do{
+            $token = Str::random(80);
+        }while($check = User::where('remember_token' , $token)->first());
+        
+        $admin->update([
+            'remember_token' => $token
+        ]);
+        Mail::to($admin->email)->send(new ForgetPasswordMail($admin ));
+        return back()->withSuccess(trans('login.reset_password_send_success'));
+    }
+
+    public function resetPasswordGet($token){
+        if(auth()->check()){
+            return back();
+        }
+        $valid = false;
+        if(!$user = User::where('remember_token' , $token)->first()){
+            $valid = true;
+        }
+        return  view('admin.reset_password'  , compact('valid' ,'user'));
+    }
+
+    public function resetPasswordPost(Request $request , $token){
+        if(auth()->check()){
+            return back();
+        }
+        $valid = false;
+        if(!$user = User::where('remember_token' , $token)->first()){
+            return view('admin.reset_password' , compact('valid'));
+        }
+        $request->validate([
+            'password' => 'required|confirmed|min:6|max:20'
+        ]);
+        $user->update([
+            'password' => Hash::make($request->password),
+            'remember_token' => null
+        ]);
+
+        return redirect(route('dashboard.login'))->withSuccess([
+            'success' => true,
+            'message' => trans('login.reset_password_successfully'),
+        ]);
     }
 }

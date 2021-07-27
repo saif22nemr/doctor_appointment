@@ -52,6 +52,8 @@ return [
     // Permission
     'edit_permission'                       => 'تم تعديل الإذن بنجاح',
 
+    'edit_profile'                                => 'تم التعديل علي البيانات الشخصية بنجاح',
+
     // setting
     'edit_setting'                                  => 'تم تعديل الإعدادات بنجاح',
 ];

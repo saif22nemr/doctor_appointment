@@ -78,6 +78,7 @@ return [
     'send_email_hint'           => 'المتغيرات : [NAME] , [EMAIL] , [DATE], [DATETIME] , [SITETITLE]',
     'show_more'                      => 'عرض المذيد',
     'users'                                 => 'المستخدمين',
+    'send'                              => 'إرسال',
     
 
 

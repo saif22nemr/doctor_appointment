@@ -55,7 +55,42 @@
 							</thead>
 
 							<tbody>
-								
+								{{-- @foreach($appointments as $appointment)
+									<tr>
+										<td>{{$appointment->id}}</td>
+										<td>
+											<a href="{{route('appointment.show' , $appointment->id)}}">{{$appointment->title}}</a>
+										</td>
+										<td>
+											<a href="{{route('patient.show' , $appointment->patient_id)}}">{{$appointment->patient->user->name}}</a>
+										</td>
+
+										<td>
+											{{$appointment->date}}
+										</td>
+										<td>{{date('h:i A' , strtotime($appointment->time))}}</td>
+										@if($status == 'all')
+										<td>
+											@if($appointment->status == 1)
+												<span class="badge badge-primary">@lang('appointment.pending')</span>
+											@elseif($appointment->status == 2)
+												<span class="badge badge-success">@lang('appointment.finished')</span>
+											@elseif($appointment->status == 3)
+												<span class="badge badge-success">@lang('appointment.finished')</span>
+
+											@elseif($appointment->status == 4)
+												<span class="badge badge-warning">@lang('appointment.request_appointment')</span>
+											@else 
+												<span class="badge badge-danger">@lang('appointment.canceled')</span>
+											@endif
+										</td>
+										@endif
+										<td>{{date('Y-m-d h:i A' , strtotime($appointment->created_at))}}</td>
+										<td>
+											<div class="dropdown show d-inline-block widget-dropdown" id="{{$appointment->id}}"><a class="dropdown-toggle icon-burger-mini" href="" role="button" id="dropdown-recent-order1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static"></a><ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown-recent-order1"><li class="dropdown-item"><a href="{{  route('appointment.edit' , $appointment->id)}}">@lang("app.edit")</a></li><li class="dropdown-item"><a href="javascript::void(0)" class="delete-item" data-toggle="modal" data-target="#exampleModal" data-id="{{$appointment->id}}"  >@lang("app.delete")</a></li></ul></div>
+										</td>
+									</tr>
+								@endforeach  --}}
 							</tbody>
 						</table>
 					</div>
@@ -99,7 +134,7 @@
 	jQuery(document).ready(function() {
 		var urlDelete = '';
 		var itemId = 0;
-	   var appointmentTable = jQuery('#responsive-data-table').DataTable({
+		var appointmentTable = jQuery('#responsive-data-table').DataTable({
 	    "aLengthMenu": [[20, 30, 50, 75, -1], [20, 30, 50, 75, "All"]],
 	    "pageLength": 20,
 		"dom": '<"row justify-content-between top-information"lf>rt<"row justify-content-between bottom-information"ip><"clear">',
@@ -127,6 +162,11 @@
 	   ],
 	    'language': datatableLanguage
 	   });
+
+	@if($today)
+	   appointmentTable.column(3).search("{{date('Y-m-d')}}").draw();
+
+	   @endif
 	   //getappointment(appointmentTable);
 	   $('.card-body').on('click' , 'a.delete-item',function(e){
 	   		e.preventDefault();

@@ -14,7 +14,7 @@
 <meta itemprop="image" content="{{$setting['meta_image']}}">
   <meta name="csrf-token" content="{{ csrf_token() }}"> 
 
-<title>{{  $setting['site_title']}} | @yield('title')</title> 
+<title>@yield('title') | {{  $setting['site_title']}} </title> 
 
   <!-- GOOGLE FONTS -->
   
@@ -181,31 +181,24 @@
                     <ul class="dropdown-menu dropdown-menu-right">
                       <!-- User image -->
                       <li class="dropdown-header">
-                      <a href="#">
+                      <a href="{{route('dashboard.profile.index')}}">
                         <img src="{{asset('image/default_image.png')}}" class="img-circle" alt="User Image" />
                         <div class="d-inline-block">
                           {{$auth_user->name}}<small class="pt-1">{{$auth_user->email}}</small>
                         </div>
                         </a>
                       </li>
-
+                    @if($auth_user->group == 1)
                       <li>
-                        <a href="{{route('dashboard.index')}}">
+                        <a href="{{route('admin.index')}}">
                           <i class="mdi mdi-account"></i> @lang('app.admins')
                         </a>
                       </li>
-                      <!-- <li>
-                        <a href="#">
-                          <i class="mdi mdi-email"></i> Message
-                        </a>
-                      </li>
-                      <li>
-                        <a href="#"> <i class="mdi mdi-diamond-stone"></i> Projects </a>
-                      </li> -->
+                
                       <li class="">
                         <a href="{{route('dashboard.index')}}"> <i class="mdi mdi-settings"></i> @lang('app.settings') </a>
                       </li>
-
+                    @endif
                       <li class="dropdown-footer">
                         <a href="{{route('dashboard.logout')}}"> <i class="mdi mdi-logout"></i> @lang('app.logout') </a>
                       </li>
@@ -226,7 +219,7 @@
 
         <footer class="footer mt-auto">
             <div class="copyright bg-white">
-              <p>
+              <p class="text-center">
                 {{$lang == 'en' ? $setting['site_footer_en'] : $setting['site_footer'] ?? 'footer'}}
               </p>
             </div>

@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\AppointmentCommentController;
 use App\Http\Controllers\Api\AppointmentController;
 use App\Http\Controllers\Api\BranchController;
 use App\Http\Controllers\Api\LoginController;
+use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\Api\QuestionController;
 use App\Http\Controllers\Api\SettingController;
 use App\Http\Controllers\Api\Users\AdminController;
@@ -49,7 +50,7 @@ Route::group(['middleware' => 'auth:api'] , function(){
     Route::resource('patient.application', ApplicationController::class , ['as' => 'api'])->only(['index' , 'store' ,'update' ]);
     Route::delete('patient/{patient}/application',[ ApplicationController::class , 'destroy'])->name('api.patient.application.destroy');
 
-
+    Route::patch('profile' , [ProfileController::class , 'update'])->name('api.profile.update');
     // Branch
     Route::resource('branch' , BranchController::class, ['as' => 'api'])->except(['create' , 'edit']);
     Route::get('branch/{branch}/employee' , [BranchController::class , 'getStuff'])->name('api.branch.employee');

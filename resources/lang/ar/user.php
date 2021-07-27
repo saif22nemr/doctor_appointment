@@ -19,6 +19,8 @@ return [
     'edit_comment'                              => 'تعديل التعليق',
     'comment_placeholder'               => 'اكتب تعليق هنا ..',
 
+    'edit_profile'                                  => 'تعديل البيانات الشخصية',
+
 
     // error
     'error_email_unique'        => 'البريد الإلكتروني مكرر',

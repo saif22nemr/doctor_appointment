@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Permission;
 use App\Models\Setting;
 use Carbon\Carbon;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -21,12 +22,15 @@ class Controller extends BaseController
     protected $viewShare = null;
     public $lang , $apiToken;
     public function __construct(){
-        
+        // $this->mailConfig();
+        $this->generalConstruct();
+            
+    }
+    protected function generalConstruct(){
         $this->getConstruct();
         $this->webConstruct();
         View::share($this->viewShare);
-    //    $this->middleware('auth');
-            
+       $this->middleware('auth');
     }
     protected function getConstruct(){
         
@@ -58,5 +62,39 @@ class Controller extends BaseController
             View::share($this->viewShare);
             return $next($request);
         });
+    }
+
+    // check permission
+    public function checkPermission($permission  = '' , $role = ''){
+        if($this->user->group == 1){
+            return true;
+        }elseif($this->user->group == 2){
+            $permission = Permission::where('key' , $permission)->first();
+            if(isset($permission->id) and $this->user->userPermissions()->where('permission_id' , $permission->id)->where($role , 1)->first()){
+                return true;
+            }
+        }
+
+        return false;
+    }
+    public function employeePermission($permission = '' , $role = ''){
+        if(!$this->checkPermission($permission , $role)){
+            return redirect(route('dashboard.index'));
+        }
+        return true;
+    }
+    private function mailConfig(){
+        $sets = Setting::all();
+        $setting = [];
+        foreach($sets as $set){
+            $setting[$set->name] = $set->data;
+            
+        }
+        Config::set('mail.mailers.smtp.username', trim($setting['email']));    
+        Config::set('mail.mailers.smtp.host', trim($setting['email_host']));    
+        Config::set('mail.mailers.smtp.port', trim($setting['email_port']));    
+        Config::set('mail.mailers.smtp.encryption', trim('tls'));    
+        Config::set('mail.default', trim('smtp'));    
+        Config::set('mail.mailers.smtp.password', trim($setting['email_password']));
     }
 }

@@ -26,7 +26,8 @@ class User extends Authenticatable
         'status',
         'group',
         'branch_id',
-        'api_token'
+        'api_token',
+        'remember_token',
     ];
 
     /**
@@ -66,5 +67,8 @@ class User extends Authenticatable
     }
     public function branch(){
         return $this->belongsTo('App\Models\Branch' , 'branch_id');
+    }
+    public function userPermissions(){
+        return $this->hasMany('App\Models\UserPermission' , 'user_id');
     }
 }

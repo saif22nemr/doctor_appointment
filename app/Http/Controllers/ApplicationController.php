@@ -14,6 +14,7 @@ class ApplicationController extends Controller
      */
     public function index()
     {
+        $this->employeePermission('application' , 'view');
         //
         $questions = Question::all();
         return view('admin.setting.question_list' , compact('questions'));
@@ -26,6 +27,7 @@ class ApplicationController extends Controller
      */
     public function create()
     {
+        $this->employeePermission('application' , 'create');
         $action = 'create';
         return view('admin.setting.question_form', compact('action'));
     }
@@ -40,6 +42,7 @@ class ApplicationController extends Controller
      */
     public function edit(Question $question)
     {
+        $this->employeePermission('application' , 'edit');
         $question->chooses;
         $action = 'edit';
         return view('admin.setting.question_form', compact('action' , 'question'));

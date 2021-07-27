@@ -16,9 +16,26 @@ class AppointmentController extends Controller
      */
     public function index(Request $request)
     {
+        return $this->employeePermission('appointment' , 'view');
         //
         $status = $request->has('status') ? $request->status : 'all';
-        return view('admin.appointment.appointment_list' ,compact('status')) ;
+        $mystatus = -1;
+        if($request->has('status')){
+            if($request->status == 'pending') $mystatus = 1;
+            elseif($request->status == 'finished') $mystatus = 2;
+            elseif($request->status == 'canceled') $mystatus = 0;
+            elseif($request->status == 'appointment_request') $mystatus = 3;
+        }
+
+        if($mystatus != -1){
+            $appointments = Appointment::where('status' , $mystatus)->with('patient.user')->get();
+        }else{
+            $appointments = Appointment::with('patient.user' )->get();
+        }
+        // return $appointments;
+
+        $today = $request->has('search_type') ? ($request->search_type == 'today' ? true : false ): false;
+        return view('admin.appointment.appointment_list' ,compact('status' , 'appointments' , 'today')) ;
     }
 
     /**
@@ -28,7 +45,7 @@ class AppointmentController extends Controller
      */
     public function create()
     {
-        //
+        return $this->employeePermission('appointment' , 'create');
         $action = 'create';
         $patients = Patient::leftJoin('users' , 'patients.user_id' , 'users.id')->select('patients.*','users.name')->orderBy('users.name' , 'asc')->get();
         $branches = Branch::orderBy('position' , 'asc')->get();
@@ -44,7 +61,7 @@ class AppointmentController extends Controller
      */
     public function show(Request $request , Appointment $appointment)
     {
-        //
+        return $this->employeePermission('appointment' , 'view');
         $appointment->patient;
         $appointment->branch;
         $appointment->followAppointment;
@@ -62,6 +79,7 @@ class AppointmentController extends Controller
      */
     public function edit(Appointment $appointment)
     {
+        return $this->employeePermission('appointment' , 'edit');
         $action = 'edit';
         $patients = Patient::leftJoin('users' , 'patients.user_id' , 'users.id')->select('patients.*','users.name')->orderBy('users.name' , 'asc')->get();
         $branches = Branch::orderBy('position' , 'asc')->get();

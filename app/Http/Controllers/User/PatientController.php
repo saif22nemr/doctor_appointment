@@ -19,6 +19,7 @@ class PatientController extends Controller
      */
     public function index()
     {
+        return $this->employeePermission('patient' , 'view');
         //
         $patients = Patient::with('user.phones')->get()->map(function($patient){
             $patient->age = calucAge($patient->birthday);
@@ -35,6 +36,7 @@ class PatientController extends Controller
      */
     public function create()
     {
+        return $this->employeePermission('patient' , 'create');
         //
         $branchs = Branch::orderBy('name' , 'asc')->get();
         $action = 'create';
@@ -50,6 +52,7 @@ class PatientController extends Controller
      */
     public function show(Request $request , Patient $patient)
     {
+        return $this->employeePermission('patient' , 'view');
         $tabList = ['application' , 'activity' , 'comment'];
         if($request->has('tab') ){
             $tab = $request->tab;
@@ -74,6 +77,7 @@ class PatientController extends Controller
      */
     public function edit(Patient $patient)
     {
+        return $this->employeePermission('patient' , 'edit');
         $action = 'edit';
         $branchs = Branch::orderBy('name' , 'asc')->get();
         return view('admin.user.patient_form' , compact('action' , 'patient' , 'branchs'));
@@ -87,6 +91,7 @@ class PatientController extends Controller
      */
 
      public function createApplication(Patient $patient){
+        return $this->employeePermission('application' , 'create');
          if($patient->application_id != null){
              return redirect()->intended(route('patient.show' , $patient->id));
          }
@@ -96,6 +101,7 @@ class PatientController extends Controller
      }
 
      public function editApplication(Patient $patient , ApplicationQuestion $applicationQuestion){
+        return $this->employeePermission('application' , 'edit');
         if($patient->application_id == null or !$question = $applicationQuestion->getQuestion){
             return redirect()->intended(route('patient.show' , $patient->id));
         }

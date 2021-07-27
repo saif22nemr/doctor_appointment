@@ -72,36 +72,25 @@
             </div>
             <div class="card-body p-5">
 
-              <h4 class="text-dark mb-5">@lang('login.login')</h4>
-			<form action="{{route('dashboard.login')}}" method="POST">
+              <h4 class="text-dark mb-5 text-center">@lang('login.reset_password')</h4>
+			<form action="{{route('dashboard.reset_password' , $user->remember_token)}}" method="POST">
 			    	@csrf
                 <div class="row">
                   <div class="form-group col-md-12 mb-4">
-				            <input type="text" class="form-control input-lg" id="username"  placeholder="@lang('app.entry_username')" name="username" value="{{old('username')}}">
-                    @error('username')
-                        <p class="error-message">{{$message}}</p>
-                    @enderror
-                            </div>
-                            <div class="form-group col-md-12 ">
-                    <input type="password" class="form-control input-lg" name="password"
-                    id="password" placeholder="@lang('app.entry_password')">
+				            <input type="password" class="form-control input-lg" id="password"  placeholder="@lang('login.entry_new_password')" name="password" >
                     @error('password')
                         <p class="error-message">{{$message}}</p>
                     @enderror
                   </div>
-                  <div class="col-md-12">
-                    <div class="d-flex my-2 justify-content-between">
-                      <div class="d-inline-block mr-3">
-                        <label class="control control-checkbox">@lang('login.remember_me')
-                          <input type="checkbox" name="remember_me" />
-                          <div class="control-indicator"></div>
-                        </label>
 
-                      </div> 
-                   
-                    </div>
-                    <a href="{{route('dashboard.forget_password')}}" class="forget-password">{{trans('login.forget_password')}}</a>
-                    <button type="submit" class="btn btn-lg btn-primary btn-block mb-4">@lang('login.login')</button>
+                  <div class="form-group col-md-12 mb-4">
+				            <input type="password" class="form-control input-lg" id="password_confirmation"  placeholder="@lang('login.entry_new_password')" name="password_confirmation" >
+                    @error('password_confirmation')
+                        <p class="error-message">{{$message}}</p>
+                    @enderror
+                  </div>
+                  
+                    <button type="submit" class="btn btn-lg btn-primary btn-block mb-4">@lang('app.send')</button>
                     {{-- <p>Don't have an account yet ?
                       <a class="text-blue" href="sign-up.html">Sign Up</a>
                     </p> --}}

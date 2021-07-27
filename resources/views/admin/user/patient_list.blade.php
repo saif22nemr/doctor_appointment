@@ -63,16 +63,7 @@
 								
 								<td>{{$patient->address}}</td>
 								<td>{{$patient->job}}</td>
-								{{-- <td>
-									@if($patient->social_status == 0)
-										<span class="badge badge-primary">@lang('app.single')</span>
-									@else
-									<span class="badge badge-success">@lang('app.married')</span>
-									@endif
-								</td> --}}
-								{{-- <td>
-									<a href="{{route('branch.show' , $patient->user->branch_id)}}" title="@lang('app.entry_address') : {{$patient->user->branch->address}}">{{$patient->user->branch->name}}</a>
-								</td> --}}
+							
 								<td>
 									@foreach($patient->user->phones as $phone)
 										<p>{{$phone->number}}</p>
@@ -138,6 +129,7 @@
 		// 'order'	: [[7, 'desc']],
 	    'language': datatableLanguage
 	   });
+	   
 	   //getpatient(patientTable);
 	   $('.card-body').on('click' , 'a.delete-item',function(e){
 	   		e.preventDefault();
