@@ -49,27 +49,21 @@ function get_setting($key = null){
 
 // check permission for employee
 function has_permission($permission = '' , $role = ''){
-	$user = user();
+	if(!auth()->check()){
+		return false;
+	}
+	$user = auth()->user();
 	if($user->group == 1){
 		return true;
 	}elseif($user->group == 2){
-		$whiteList = [
-			'dashboard'
-		];
-		if($permission == '' or $role == '') {
-			return false;
+		$permission = Permission::where('key' , $permission)->first();
+		if(isset($permission->id) and $user->userPermissions()->where('permission_id' , $permission->id)->where($role , 1)->first()){
+			return true;
 		}
-		foreach($whiteList as $item){
-			if($item == $permission) return true;
-		}
-		
-		if($permission = Permission::where('key' , $permission)->first()){
-			if($check = UserPermission::where('permission_id' , $permission->id)->where($role , 1)->first()){
-				return true;
-			}
-		}
-
 	}
 
 	return false;
+	
+
+	
 }

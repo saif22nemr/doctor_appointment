@@ -19,7 +19,9 @@ class PatientController extends Controller
      */
     public function index()
     {
-        return $this->employeePermission('patient' , 'view');
+        if(!$this->checkPermission('patient' , 'view')){
+            return redirect($this->defaultRoute);
+        }
         //
         $patients = Patient::with('user.phones')->get()->map(function($patient){
             $patient->age = calucAge($patient->birthday);
@@ -36,7 +38,9 @@ class PatientController extends Controller
      */
     public function create()
     {
-        return $this->employeePermission('patient' , 'create');
+        if(!$this->checkPermission('patient' , 'create')){
+            return redirect($this->defaultRoute);
+        }
         //
         $branchs = Branch::orderBy('name' , 'asc')->get();
         $action = 'create';
@@ -52,7 +56,9 @@ class PatientController extends Controller
      */
     public function show(Request $request , Patient $patient)
     {
-        return $this->employeePermission('patient' , 'view');
+        if(!$this->checkPermission('patient' , 'view')){
+            return redirect($this->defaultRoute);
+        }
         $tabList = ['application' , 'activity' , 'comment'];
         if($request->has('tab') ){
             $tab = $request->tab;
@@ -77,7 +83,9 @@ class PatientController extends Controller
      */
     public function edit(Patient $patient)
     {
-        return $this->employeePermission('patient' , 'edit');
+        if(!$this->checkPermission('patient' , 'edit')){
+            return redirect($this->defaultRoute);
+        }
         $action = 'edit';
         $branchs = Branch::orderBy('name' , 'asc')->get();
         return view('admin.user.patient_form' , compact('action' , 'patient' , 'branchs'));
@@ -91,7 +99,9 @@ class PatientController extends Controller
      */
 
      public function createApplication(Patient $patient){
-        return $this->employeePermission('application' , 'create');
+        if(!$this->checkPermission('patient' , 'edit')){
+            return redirect($this->defaultRoute);
+        }
          if($patient->application_id != null){
              return redirect()->intended(route('patient.show' , $patient->id));
          }
@@ -101,7 +111,9 @@ class PatientController extends Controller
      }
 
      public function editApplication(Patient $patient , ApplicationQuestion $applicationQuestion){
-        return $this->employeePermission('application' , 'edit');
+        if(!$this->checkPermission('patient' , 'edit')){
+            return redirect($this->defaultRoute);
+        }
         if($patient->application_id == null or !$question = $applicationQuestion->getQuestion){
             return redirect()->intended(route('patient.show' , $patient->id));
         }

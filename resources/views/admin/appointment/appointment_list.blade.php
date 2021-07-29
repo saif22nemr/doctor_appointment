@@ -49,6 +49,7 @@
 									@if($status == 'all')
 									<th>@lang('app.entry_status')</th>
 									@endif
+									<th>@lang('app.entry_patient_status')</th>
 									<th>@lang('app.entry_created_at')</th>
 									<th>@lang('app.entry_action')</th>
 								</tr>
@@ -138,7 +139,7 @@
 	    "aLengthMenu": [[20, 30, 50, 75, -1], [20, 30, 50, 75, "All"]],
 	    "pageLength": 20,
 		"dom": '<"row justify-content-between top-information"lf>rt<"row justify-content-between bottom-information"ip><"clear">',
-		'order'	: [[{{$status == 'all' ? 6 : 5}}, 'desc']],
+		'order'	: [[{{$status == 'all' ? 7 : 6}}, 'desc']],
 		'ajax' :{
 			'url' :  "{{route('api.appointment.index')}}?status={{$status}}&datatable=1",
 			'headers' : header,
@@ -152,7 +153,9 @@
 			{'data' : 'time_tag'},
 			@if($status == 'all')
 			{'data' : 'status_tag'},
+			
 			@endif
+			{'data' : 'patient_status_tag'},
 			// {'data' : 'created_data.string' , 'sort' : 'created_date'},
 			{'data' : {
 				'_':  "created_date.string",

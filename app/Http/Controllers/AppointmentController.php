@@ -16,7 +16,9 @@ class AppointmentController extends Controller
      */
     public function index(Request $request)
     {
-        return $this->employeePermission('appointment' , 'view');
+        if(!$this->checkPermission('appointment' , 'view')){
+            return redirect($this->defaultRoute);
+        }
         //
         $status = $request->has('status') ? $request->status : 'all';
         $mystatus = -1;
@@ -45,7 +47,9 @@ class AppointmentController extends Controller
      */
     public function create()
     {
-        return $this->employeePermission('appointment' , 'create');
+        if(!$this->checkPermission('appointment' , 'create')){
+            return redirect($this->defaultRoute);
+        }
         $action = 'create';
         $patients = Patient::leftJoin('users' , 'patients.user_id' , 'users.id')->select('patients.*','users.name')->orderBy('users.name' , 'asc')->get();
         $branches = Branch::orderBy('position' , 'asc')->get();
@@ -61,7 +65,10 @@ class AppointmentController extends Controller
      */
     public function show(Request $request , Appointment $appointment)
     {
-        return $this->employeePermission('appointment' , 'view');
+        
+        if(!$this->checkPermission('appointment' , 'view')){
+            return redirect($this->defaultRoute);
+        }
         $appointment->patient;
         $appointment->branch;
         $appointment->followAppointment;
@@ -79,7 +86,10 @@ class AppointmentController extends Controller
      */
     public function edit(Appointment $appointment)
     {
-        return $this->employeePermission('appointment' , 'edit');
+        
+        if(!$this->checkPermission('appointment' , 'edit')){
+            return redirect($this->defaultRoute);
+        }
         $action = 'edit';
         $patients = Patient::leftJoin('users' , 'patients.user_id' , 'users.id')->select('patients.*','users.name')->orderBy('users.name' , 'asc')->get();
         $branches = Branch::orderBy('position' , 'asc')->get();

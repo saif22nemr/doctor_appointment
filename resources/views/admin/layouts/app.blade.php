@@ -136,40 +136,7 @@
 
               <div class="navbar-right ">
                 <ul class="nav navbar-nav">
-                  <li class="dropdown notifications-menu">
-                    <button class="dropdown-toggle" data-toggle="dropdown">
-                      <i class="mdi mdi-bell-outline"></i>
-                    </button>
-                    <ul class="dropdown-menu dropdown-menu-right">
-                      {{-- <li class="dropdown-header">@lang('app.header_notification' , ['count' => count($activities)])</li>
-                      @foreach($activities as $activity)
-                      @if(strlen($lang == 'en' ? $activity->description_en : $activity->description) > 0)
-                        <li>
-                          
-                          <a href="{{$activity->link}}">
-                            
-                          <div>
-                            <span class=" font-size-12 d-inline-block float-right "><i class="mdi mdi-clock-outline"></i> {{$activity->humen_date}}</span>
-                            <span class=" font-size-12 d-inline-block float-left text-primary"> {{$activity->user->name}}</span>
-                          </div>
-                            <div >
-                              {{$lang == 'en' ? $activity->description_en : $activity->description}}
-                            </div>
-                          </a>
-                          
-                        </li>
-                        @endif
-                      @endforeach
-                       --}}
-                    
-                      <li class="dropdown-footer">
-                        <a class="text-center" href="#"> </a>
-                      </li>
-                    </ul>
-                  </li>
-                  <li class="right-sidebar-in right-sidebar-2-menu">
-                    <i class="mdi mdi-settings mdi-spin"></i>
-                  </li>
+                  
                   <!-- User Account -->
                   <li class="dropdown user-menu">
                     <button href="{{route('dashboard.index')}}" class="dropdown-toggle nav-link" data-toggle="dropdown">

@@ -1,4 +1,4 @@
-<?php $title = ['user' , 'patient'];?>
+<?php $title = ['patient' , 'patient'];?>
 @extends('admin.layouts.app')
 
 @section('title')

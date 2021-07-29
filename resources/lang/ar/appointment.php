@@ -3,7 +3,7 @@
 return [
 
 	'all' 				=> 'كل',
-	'pending' 				=> 'المنتظرة',
+	'pending' 				=> 'الانتظار',
 	'finished' 				=> 'المنتهى',
 	'canceled' 				=> 'الملغى',
 	'new'						=> 'جديد',
@@ -15,7 +15,7 @@ return [
 	'delete_appointment'				=> 'حذف حجز',
 	'appointment_list'					=> 'قائمة الحجزات',
 	'appointment_list_all'					=> 'قائمة الحجزات',
-	'appointment_list_pending'					=> ' قائمة الحجزات المنتظرة',
+	'appointment_list_pending'					=> ' قائمة الحجزات الانتظار',
 	'appointment_list_finished'					=> 'قائمة الحجزات المكتملة',
 	'appointment_list_canceled'					=> 'قائمة الحجزات الملغية',
 	'appointment_list_appointment_request'					=> 'قائمة طلبات الحجزات',
@@ -26,6 +26,7 @@ return [
 	// error
 	'error_appointment_not_found' => 'هذا الموعد لا يتنمي الي هذا المريض.',
 	'error_appointment'			=> 'يجب ان يكون حجز من قبل لنفس المريض',
+	'error_time'							=> 'يجب ادخال الوقت h:s',
 ];
 
 ?>

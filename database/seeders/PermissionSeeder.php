@@ -25,34 +25,7 @@ class PermissionSeeder extends Seeder
             'key'    => 'appointment',
             'name' => 'المواعيد'
             ],
-            [
-            'key'    => 'employee',
-            'name' => 'الموظفين'
-            ],
-            [
-            'key'    => 'branch',
-            'name' => 'الفروع'
-            ],
-            [
-                'key'    => 'setting',
-                'name' => 'الاعدادات',
-                'view'    => 1,
-                'create'    => 0,
-                'edit'    => 1,
-                'delete'    => 0,
-            ],
-            [
-                'key'    => 'admin',
-                'name' => 'المدراء'
-            ],
-            [
-                'key'    => 'profile',
-                'name' => 'صفحة الشخصية',
-                'view'    => 1,
-                'create'    => 0,
-                'edit'    => 1,
-                'delete'    => 0,
-            ],
+      
           
         ];
         DB::statement("SET foreign_key_checks=0");

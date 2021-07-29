@@ -34,9 +34,10 @@ Route::get('dashboard/forget_password' , [LoginController::class , 'forgetPasswo
 Route::post('dashboard/forget_password' , [LoginController::class , 'forgetPasswordPost']);
 Route::get('dashboard/reset_password/{token}' , [LoginController::class , 'resetPasswordGet'])->name('dashboard.reset_password');
 Route::post('dashboard/reset_password/{token}' , [LoginController::class , 'resetPasswordPost']);
-Route::group(['prefix' => 'dashboard' , 'middleware' => 'auth' ] , function (){
-    Route::get('test' , [TestController::class , 'index']);
-    Route::get('/', [DashboardController::class , 'index'])->name('dashboard.index');
+Route::get('dashboard', [DashboardController::class , 'index'])->name('dashboard.index');
+Route::group(['prefix' => 'dashboard' , 'middleware' => ['auth' , 'route_permission'] ] , function (){
+    // Route::get('test' , [TestController::class , 'index']);
+    
     Route::get('logout' , [LoginController::class , 'logout'])->name('dashboard.logout');
 
     Route::resource('profile' , ProfileController::class , ['as' => 'dashboard'])->only(['index']);

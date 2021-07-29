@@ -1,4 +1,4 @@
-<?php $title = ['user' , 'branch'];?>
+<?php $title = ['branch' , 'branch'];?>
 @extends('admin.layouts.app')
 @section('title' )
 	@lang('app.branch')
@@ -50,7 +50,7 @@
 						</div>
 						<div class="col-sm-4 mb-3">
 							<h4>@lang('app.entry_address')</h4>
-						<p>{{$branch->username}}</p>
+						<p>{{$branch->address}}</p>
 						</div>
 						
 						<div class="col-sm-4 mb-3">
@@ -61,14 +61,14 @@
 					{{-- Tabs --}}
 					<ul class="nav nav-tabs mt-6" id="myTab" role="tablist">
 						<li class="nav-item">
-							<a class="nav-link {{(isset($tab) and $tab == 'activities') ? 'active' : ''}}" id="activities-tab" data-toggle="tab" href="#activities" role="tab" aria-controls="activities" aria-selected="true">@lang('app.activities')</a>
+							<a class="nav-link active" id="activities-tab" data-toggle="tab" href="#activities" role="tab" aria-controls="activities" aria-selected="true">@lang('app.activities')</a>
 						</li>
 					
 					
 					</ul>
 					<div class="tab-content" id="myTabContent1">
 						{{-- Activities --}}
-						<div class="tab-pane pt-3 fade  {{(isset($tab) and $tab == 'activities') ? 'show active' : ''}}" id="activities" role="tabpanel" aria-labelledby="activities-tab">
+						<div class="tab-pane pt-3 fade show  active" id="activities" role="tabpanel" aria-labelledby="activities-tab">
 						
 							<div class="responsive-data-table">
 								<table id="responsive-data-table" class="table even-odd dt-responsive dataTable no-footer dtr-inline collapsed " style="width:100%">

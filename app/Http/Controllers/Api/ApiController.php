@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Auth;
 class ApiController extends Controller
 {
         use ApiResponse;
-    public $user = null;
+    public $user = null , $unauthResponse;
     public function __construct(){
     	
     	// $this->getConstruct();
@@ -28,6 +28,7 @@ class ApiController extends Controller
         }
     	$this->apiGetUser();
         $this->middleware('auth:api');
+        $this->unauthResponse = $this->errorResponse(trans('app.error_not_auth'));
     }
     public function apiGetUser(){
     	$this->middleware(function ($request, $next) {

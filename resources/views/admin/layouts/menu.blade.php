@@ -85,38 +85,31 @@
                   @endif
                   {{-- End Appointment --}}
                   
-                  <!-- Users Start -->
-                  <li  class="has-sub {{(isset($title) and $title[0] == 'user') ? 'active expand' : ''}}" >
-                    <a class="sidenav-item-link" href="javascript:void(0)" data-toggle="collapse" data-target="#user-list"
-                      aria-expanded="false" aria-controls="user-list">
-                      <i class="mdi mdi-account-group"></i>
-                      <span class="nav-text">@lang('app.users')</span> <b class="caret"></b>
+                  {{-- Patient --}}
+                  @if(has_permission('patient' , 'view'))
+                  <li  class="{{(isset($title) and $title[0] == 'patient' ) ? 'active' : ''}}" >
+                    <a class="sidenav-item-link" href="{{route('patient.index')}}" 
+                      aria-expanded="false" aria-controls="patient">
+                      <i class="mdi mdi-medical-bag"></i>
+                      <span class="nav-text">@lang('app.patient')</span> 
                     </a>
-                    <ul  class="collapse {{(isset($title) and $title[0] == 'user') ? 'show' : ''}}"  id="user-list"
-                      data-parent="#sidebar-menu">
-                      <div class="sub-menu">
-                        
-                        @if($auth_user->group != 2 or isset($employeePermissions['admin'])  )
-                            <li class="{{(isset($title) and $title[0] == 'user' and $title[1] == 'admin') ? 'active' : ''}}">
-                              <a class="sidenav-item-link " href="{{route('admin.index')}}">
-                                <span class="nav-text">@lang('app.employees')</span>
-                                
-                              </a>
-                            </li>
-                            @endif
-                            @if($auth_user->group != 2 or isset($employeePermissions['patient'])  )
-                              <li class="{{(isset($title) and $title[0] == 'user' and $title[1] == 'patient') ? 'active' : ''}}">
-                                <a class="sidenav-item-link " href="{{route('patient.index')}}">
-                                  <span class="nav-text">@lang('app.patients')</span>
-                                </a>
-                              </li>
-                              @endif
-                      </div>
-                    </ul>
                   </li>
-                  <!-- User End -->
+                  @endif
+
+                  {{-- Employee --}}
+                  @if(has_permission('employee' , 'view'))
+                  <li  class="{{(isset($title) and $title[0] == 'employee' ) ? 'active' : ''}}" >
+                    <a class="sidenav-item-link" href="{{route('employee.index')}}" 
+                      aria-expanded="false" aria-controls="employee">
+                      <i class="mdi mdi-account-star"></i>
+                      <span class="nav-text">@lang('app.employee')</span> 
+                    </a>
+                  </li>
+                  @endif
+     
 
                   {{-- Branch --}}
+                  @if(has_permission('employee' , 'view'))
                   <li  class="{{(isset($title) and $title[0] == 'branch' ) ? 'active' : ''}}" >
                     <a class="sidenav-item-link" href="{{route('branch.index')}}" 
                       aria-expanded="false" aria-controls="branch">
@@ -124,13 +117,16 @@
                       <span class="nav-text">@lang('app.branches')</span> 
                     </a>
                   </li>
+                  @endif
                    <!-- Setting Start -->
+                   @if(has_permission('setting' , 'view'))
                    <li  class="has-sub {{(isset($title) and $title[0] == 'setting') ? 'active expand' : ''}}" >
                     <a class="sidenav-item-link" href="javascript:void(0)" data-toggle="collapse" data-target="#setting-list"
                       aria-expanded="false" aria-controls="setting-list">
                       <i class="mdi mdi-settings"></i>
                       <span class="nav-text">@lang('app.settings')</span> <b class="caret"></b>
                     </a>
+                    
                     <ul  class="collapse {{(isset($title) and $title[0] == 'setting') ? 'show' : ''}}"  id="setting-list"
                       data-parent="#sidebar-menu">
                       <div class="sub-menu">
@@ -149,7 +145,9 @@
                           
                       </div>
                     </ul>
+                    
                   </li>
+                  @endif
                   <!-- Setting End -->
                 </ul>
               </div>

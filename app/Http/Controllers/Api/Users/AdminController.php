@@ -18,7 +18,9 @@ class AdminController extends ApiController
 
     public function index(Request $request)
     {
-        
+        if(!$this->checkPermission('admin' , 'view')){
+            return $this->unauthResponse;
+        }
         $request->validate([
             'username'          => 'min:1|max:190',
             'name'                  => 'min:1|max:190',
@@ -51,7 +53,9 @@ class AdminController extends ApiController
      */
     public function store(Request $request)
     {
-        //
+        if(!$this->checkPermission('admin' , 'create')){
+            return $this->unauthResponse;
+        }
         $request->validate([
             'username'  => 'required|min:4|max:190|unique:users',
             'name' => 'required|min:3|max:190',

@@ -20,13 +20,15 @@ class Controller extends BaseController
     public $setting;
     public $user = null;
     protected $viewShare = null;
-    public $lang , $apiToken;
+    public $lang , $apiToken , $defaultRoute;
+    
     public function __construct(){
         // $this->mailConfig();
         $this->generalConstruct();
             
     }
     protected function generalConstruct(){
+        $this->defaultRoute = route('dashboard.index');
         $this->getConstruct();
         $this->webConstruct();
         View::share($this->viewShare);
@@ -81,7 +83,7 @@ class Controller extends BaseController
         if(!$this->checkPermission($permission , $role)){
             return redirect(route('dashboard.index'));
         }
-        return true;
+        // return true;
     }
     private function mailConfig(){
         $sets = Setting::all();

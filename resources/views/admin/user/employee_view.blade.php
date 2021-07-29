@@ -1,4 +1,4 @@
-<?php $title = ['user' , 'employee'];?>
+<?php $title = ['employee' , 'employee'];?>
 @extends('admin.layouts.app')
 @section('title' )
 	@lang('app.employee')

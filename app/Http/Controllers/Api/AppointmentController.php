@@ -59,6 +59,11 @@ class AppointmentController extends ApiController
                 elseif($item->status == 3) $item->status_tag = '<span class="badge badge-warning">'.trans('appointment.appointment_request').'</span>';
                 else $item->status_tag = '<span class="badge badge-danger">'.trans('appointment.canceled').'</span>';
                 
+                if($item->patient_status == 1) {
+                    $item->patient_status_tag = '<span class="badge badge-success">'.trans('appointment.followed').'</span>';
+                }else{
+                    $item->patient_status_tag = '<span class="badge badge-primary">'.trans('appointment.new').'</span>';
+                }
 
                 // action button
                 $item->action = '<div class="dropdown show d-inline-block widget-dropdown" id="'.$item->id.'"><a class="dropdown-toggle icon-burger-mini" href="" role="button" id="dropdown-recent-order1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static"></a><ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown-recent-order1"><li class="dropdown-item"><a href="'.route('appointment.edit' , $item->id).'">'.trans("app.edit").'</a></li><li class="dropdown-item"><a href="javascript::void(0)" class="delete-item" data-toggle="modal" data-target="#exampleModal" data-id="'.$item->id.'" >'.trans("app.delete").'</a></li></ul></div>';
@@ -90,23 +95,25 @@ class AppointmentController extends ApiController
             'title' => 'string|nullable|min:1|max:190',
             'note' => 'string|nullable|min:1|max:10000',
             'date' => 'required|date',
-            'time' => 'required|date_format:H:i:s',
+            'time' => 'required',
             'status' => 'required|in:1,2,0',
             'branch_id' => [ 'required' , 'integer' , Rule::in(Branch::all()->pluck('id'))],
             'patient_status' => 'required|in:0,1',
             
             'appointment_id' => ['integer'  ]
         ]);
-
+        if( !Carbon::parse($request->time)){
+            return $this->errorResponse(trans('appointment.error_time') , 422);
+        }
         if( $request->patient_status == 1){
-            if(!$request->has('appointment_id') or !$followAppointment = Appointment::where('patient_id' , $request->patient_id)->where('status' , 2)->where('id' , $request->appointment_id)->first()){
+            if($request->has('appointment_id') and !$followAppointment = Appointment::where('patient_id' , $request->patient_id)->where('status' , 2)->where('id' , $request->appointment_id)->first()){
                 return $this->errorResponse(trans('appointment.error_appointment_not_found'));
             }
         }
         $data = $request->only([
             'title' , 'note' ,'date' , 'time' ,'patient_id' , 'patient_status' , 'status' , 'branch_id'
         ]);
-        if($request->patient_status == 1){
+        if($request->patient_status == 1 and $request->has('appointment_id')){
             $data['appointment_id'] = $request->appointment_id;
         }
         $appointment = Appointment::create($data);
